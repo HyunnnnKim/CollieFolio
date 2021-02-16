@@ -1,5 +1,5 @@
 ---
-title: Anyoung Haseyo!
+title: Annyeong Haseyo!
 permalink: /about/
 layout: portfolio
 excerpt: Hello, I'm a XR Developor. I'm living in Seoul Korea. This is my portfolio.
@@ -8,15 +8,15 @@ comments: false
 
 ### ABOUT ME 🙋🏻
 
-Hello, I'm Hyunwoo Kim. A XR developer (in progress) from Seoul, Korea.
+Annyeong Haseyo (Hello), my name is Hyunwoo Kim, an XR developer (in progress) from Seoul, Korea.
 
-During my college life, I studied web development using Spring and Django. Thanks to my professor, I had a chance to worked on a national IoT project which was to solve accidents that happen in the industrial site. I also recorded over 20 episodes of educational videos for students at my school. I was a hard-working student. :D 
+While in college, I had several opportunities to develop my interest in web development. I studied Spring and Django. Plus, I worked on a national IoT project with a professor to solve accidents that happen in industrial sites. In addition to my coursework, I recorded over 20 educational videos to facilitate learning for students in my department.
 
-After graduation, my interest gravitated towards VR. So, I made a decision to study VR using Unity. I studied at my good buddy's half-basement one room officetel for about 7 months. I enjoyed every moment. I fell asleep excied, thinking about what I will be creating the next day. Looking back, it was one of the best things that could ever happen to me.
+Upon graduation, I began looking into Unity for VR and thus, recently completed a VR course with recognition for the Best Project award.
 
-The next phase of my journey awaits. I recently graduated from the VR course winning the best project award. I learned a lot from my teacher, not just programming but also, life. I made good friends along the way that I can't find anywhere else. I am fueled by positive energy from the people around me. My boundless enthusiasm tells me to keep learning and never stop challenging.
+Looking back, practicing VR wasn’t so easy. My friend and I had to start it from scratch in a small studio apartment. However, I treasure every moment from the beginning to the end. Without such experience, I wouldn’t have been able to be the person I am today. I have also met a lot of good people, including my VR teacher. Not only that, I was able to expand my perspectives in programming but also about life in general. To this moment, I have made many encouraging friends that I can’t find elsewhere.
 
-Now, I want to continue to create and develop as a XR developer.
+I am thrilled to learn beyond my knowledge and to continue challenging myself for further development in this field. I welcome you on my journey to becoming an enthusiastic XR developer.
 
 안녕하세요
 

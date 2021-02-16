@@ -24,7 +24,10 @@ group :jekyll_plugins do
   gem 'jekyll-compose'
   gem 'jekyll-postfiles'
   gem 'webrick'
-  gem "jekyll-paginate"
+  gem 'jekyll-paginate'
+  gem 'jekyll-mermaid'
+  gem 'jekyll-spaceship'
+  gem 'rouge'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
