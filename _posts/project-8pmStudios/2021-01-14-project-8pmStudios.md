@@ -116,12 +116,22 @@ gantt
 
 ## FilmCamera
 
-가상 영화 촬영시 촬영감독이 사용할 카메라이다. 사용자는 물리적인 컨트롤러가 아닌 VR상에서 VR 버튼과 조이스틱 인터렉션을 통해 카메라를 제어할 수 있다. 카메라의 기능은 다음과 같다.
-- **Record**: Start, Stop, Cancel
-- **Zoom**: In/Out, On/Off
-- **Focus**: On/Off
-- **Stabilizer**: Always On
-- **Clapper Board**: Auto Update Info
+가상 영화 촬영시 촬영감독이 사용할 카메라이다. 사용자는 물리적인 컨트롤러가 아닌 VR상에서 VR 버튼과 조이스틱 인터렉션을 통해 카메라를 제어할 수 있다.
+
+<figure>
+<img src="/project-8pmStudios/cameraFunctions.png" alt="Camera Functions">
+<figcaption>Fig 0. Camera Functions.</figcaption>
+</figure>
+
+**Camera Functions**
+- *Primary Button* : Record; Start, Stop
+- *Secondary Button* : Record; Cancel
+- *Menu Button* : Control Detail Functions
+- *Joystick* : Zoom; In/Out, On/Off
+- *Focus* : On/Off
+- *Stabilizer* : Always On
+- *Clapper Board* : Auto Update Info
+- *Preview Screen* : Show Camera State
 
 ### 구조
 
@@ -331,8 +341,6 @@ VR 컨트롤러는 사용자의 움직임을 정확하게 따라가야 되기 �
 <figcaption>Fig 4. Camera Stabilizer.</figcaption>
 </figure>
 
-<br />
-
 ##### CameraStabilizer.cs
 
 {% highlight cs %}
@@ -363,14 +371,14 @@ void Update()
 
 ### ClapperBoard & Preview Screen
 
-**클래퍼 보드**는 영상 편집자에게 카메라의 **프리뷰 스크린**은 촬영 감독에게 아주 중요한 정보를 제공한다.
+<kbd>ClapperBoard</kbd>는 영상 편집자에게 카메라의 <kbd>PreviewScreen</kbd>은 촬영 감독에게 아주 중요한 정보를 제공한다.
 
 <figure>
 <img src="/project-8pmStudios/camScreen.gif" alt="camera screen info">
 <figcaption>Fig 5. Camera screen info.</figcaption>
 </figure>
 
-녹화가 시작되면 **클래퍼 보드**가 영상 정보와 함께 알아서 화면에 표시되는 것을 확인할 수 있다. **프리뷰 스크린**에는 렌즈 정보, 촬영 날짜/시간, 테이크 정보, 그리고 녹화 상태를 표시한다.
+녹화가 시작되면 <kbd>ClapperBoard</kbd>가 영상 정보와 함께 알아서 화면에 표시되는 것을 확인할 수 있다. <kbd>PreviewScreen</kbd>에는 렌즈 정보, 촬영 날짜/시간, 테이크 정보, 그리고 녹화 상태를 표시한다.
 
 ##### ClapperBoardController.cs
 
@@ -392,22 +400,168 @@ private void Clap()
     takeInfo.text = studioPreset.TakeCount.ToString();
 
     Invoke("Action", delayTime);
- }
-
- private void Action() => _animator.SetTrigger("action");
+}
+private void Action() => _animator.SetTrigger("action");
 {% endhighlight %}
 
-**클래퍼 보드** 정보 대부분은 `studioPreset` 이라는 **Scriptable Object**에 기록된 정보를 가져온다. 녹화가 시작된면 작은 딜레이 이후에 슬레이트를 치게된다. 
+<kbd>ClapperBoard</kbd> 정보 대부분은 `studioPreset` 이라는 **Scriptable Object**에 기록된 정보를 가져온다. 녹화가 시작된면 작은 딜레이 이후에 슬레이트를 치게된다. 
+
+<br />
+
+## ControlDeskSystem
+
+<kbd>ControlDeskSystem</kbd>는 촬영감독이 한곳에서 여러대 카메라를 한번에 제어하거나 찍은 영상을 확인하는 목적으로 사용된다. 
+
+<figure>
+<img src="/project-8pmStudios/controlDeskButtons.png" alt="ControlDeskSystem Buttons">
+<figcaption>Fig 6. ControlDeskSystem Buttons.</figcaption>
+</figure>
+
+<kbd>ControlDeskSystem</kbd>는 두가지 모드가 있고 모드에 따라 같은 버튼이 다른 기능을 하게 된다.
+
+**CameraControlMode**
+- *Mode Switch Button* : <kbd>VideoControlMode</kbd>로 변경
+- *Previous Button* : 이전 카메라의 프리뷰 스크린을 화면에 띄운다
+- *Next Button* : 다음 인덱스의 카메라 프리뷰 스크린을 화면에 띄운다
+- *Primary Button* : 선택된 카메라 녹화/중지
+- *Secondary Button* : 현재 카메라 선택/해제
+
+**VideoControlMode**
+- *Mode Switch Button*: <kbd>CameraControlMode</kbd>로 변경
+- *Previous Button*: 저장되어 있는 이전 영상을 재생
+- *Next Button*: 저장되어 있는 다음 인덱스의 영상을 재생
+- *Primary Button*: 영상 재생/일시정지, 영상 삭제 확인
+- *Secondary Button*: 영상 삭제, 영상 삭제 취소
+
+### 구조
+
+<kbd>ControlDeskSystem</kbd>의 구조는 <kbd>FilmCamera</kbd>의 구조와 비슷하다. <kbd>ControlDeskSystem</kbd>의 기능은 모드가 변경될 때 마다 콜백함수에 구독되는 기능이 바뀌게 된다. 
+
+##### FilmCamera Sequence Diagram
+
+@startmermaid
+sequenceDiagram
+    participant CDS as ControlDeskSystem
+    participant FCM as FilmCameraManager
+    participant VPM as VideoPlayerManager
+    participant OS as OutputScreen
+    participant C1 as Camera_1
+
+    activate CDS
+    activate OS
+    activate C1
+    C1->>CDS: If Active Let Control Desk Know
+    par [previous state : VideoControlMode]
+        CDS-->>+FCM: Mode OnButtonDown
+        FCM->>FCM: Subscribe Callbacks
+        deactivate FCM
+        CDS-->>+VPM: Mode OnButtonDown
+        VPM->>VPM: Unsubscribe Callbacks
+        deactivate VPM
+    and [previous state : CameraControlMode]
+        CDS-->>+FCM: Mode OnButtonDown
+        FCM->>FCM: Unsubscribe Callbacks
+        deactivate FCM
+        CDS-->>+VPM: Mode OnButtonDown
+        VPM->>VPM: Subscribe Callbacks
+        deactivate VPM
+    end
+    alt current state : CameraControlMode
+        CDS-->>+FCM: Previous OnButtonDown
+        FCM->>OS: Show Previous Camera Screen
+        deactivate FCM
+    else current state : VideoControlMode
+        CDS-->>+VPM: Previous OnButtonDown
+        VPM->>OS: Show Previous Recorded Video
+        deactivate VPM
+    end
+    alt current state : CameraControlMode
+        CDS-->>+FCM: Next OnButtonDown
+        FCM->>OS: Show Next Camera Screen
+        deactivate FCM
+    else current state : VideoControlMode
+        CDS-->>+VPM: Next OnButtonDown
+        VPM->>OS: Show Next Recorded Video
+        deactivate VPM
+    end
+    alt current state : CameraControlMode
+        CDS-->>+FCM: Primary OnButtonDown
+        par [current state : not recording]
+            FCM->>C1: Record Selected
+        and [current state : recording]
+            FCM->>C1: Stop Record Selected
+            deactivate FCM
+        end
+    else current state : VideoControlMode
+        CDS-->>+VPM: Primary OnButtonDown
+        par [current state : paused]
+            VPM->>OS: Play Video
+        and [current state : playing]
+            VPM->>OS: Pause Video
+            deactivate VPM
+        end
+    end
+    alt current state : CameraControlMode
+        CDS-->>+FCM: Secondary OnButtonDown
+        par [current state : selected]
+            FCM->>C1: Deselect Camera
+        and [current state : not selected]
+            FCM->>C1: Select Camera
+            deactivate FCM
+        end
+    else current state : VideoControlMode
+        CDS-->>+VPM: Secondary OnButtonDown
+        par [delete mode : on]
+            VPM->>OS: Cancel Delete Mode
+        and [delete mode : off]
+            VPM->>OS: Turn On Delete Mode
+            deactivate VPM
+        end
+    end
+    deactivate OS
+    deactivate C1
+    deactivate CDS
+@endmermaid
+
+<br />
+
+
+### FilmCameraManager
+
+
+##### FilmCameraManager.cs
+
+{% highlight cs %}
+private void OnModeChange(ControlMode mode)
+{
+    _currentMode = mode;
+    if (_currentMode.Equals(ControlMode.CameraViewer))
+    {
+        _deskController.PreviousAction += ShowPreviousCam;
+        _deskController.NextAction += ShowNextCam;
+        _deskController.PrimaryAction += RecordSelectedCam;
+        _deskController.SecondaryAction += SelectCam;
+    }
+    else
+    {
+        _deskController.PreviousAction -= ShowPreviousCam;
+        _deskController.NextAction -= ShowNextCam;
+        _deskController.PrimaryAction -= RecordSelectedCam;
+        _deskController.SecondaryAction -= SelectCam;
+    }
+}
+{% endhighlight %}
+
+<br />
+
+### VideoPlayerManager
+
+
+##### VideoPlayerManager.cs
 
 {% highlight cs %}
 
 {% endhighlight %}
-
-## CameraManager
-
-
-<br />
-
 
 
 <figure>

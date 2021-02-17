@@ -2,7 +2,7 @@
 title: Annyeong Haseyo!
 permalink: /about/
 layout: portfolio
-excerpt: Hello, I'm a XR Developor. I'm living in Seoul Korea. This is my portfolio.
+excerpt: Hello, I'm an XR Developor. I'm living in Seoul Korea. This is my portfolio.
 comments: false
 ---
 
