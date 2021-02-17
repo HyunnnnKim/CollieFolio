@@ -2,7 +2,7 @@
 layout: post
 title: 8pm STUDIOS
 date: 2021-01-14 09:29:20 +0700
-modified: 2021-02-14 16:49:47 +07:00
+modified: 2021-02-17 21:49:47 +07:00
 categories: Projects
 tags: [RAPA, Project, VR]
 description: 8pm STUDIOS는 아마추어 배우, 작가, 연출, 촬영감독들을 연결하는 가상 영화 촬영 플랫폼이다.
@@ -17,9 +17,9 @@ image: /project-8pmStudios/intro.png
 
 **팀명:** 8pm\
 **팀원:** 김지윤, 신철호, 김현우\
-**담당 파트:** 카메라\
 **개발 환경:** Unity 2020.1, Visual Studio, GitLab\
 **제작 기간:** 2020.12.28 ~ 2021.02.08\
+**YouTube:** 
 <br />
 
 ### 목적
@@ -114,9 +114,9 @@ gantt
 
 # 프로젝트 기능
 
-## FilmCamera
+## 1. FilmCamera
 
-가상 영화 촬영시 촬영감독이 사용할 카메라이다. 사용자는 물리적인 컨트롤러가 아닌 VR상에서 VR 버튼과 조이스틱 인터렉션을 통해 카메라를 제어할 수 있다.
+가상 영화 촬영 시 촬영감독이 사용할 카메라이다. 사용자는 물리적인 컨트롤러를 사용해서 카메라를 컨트롤 할 수 있지만 VR상에서 VR 버튼과 조이스틱 인터렉션을 통해 카메라를 제어하면 **몰입감**을 높일수 있고 **사용자 경험**의 퀄리티도 높일 수 있다고 생각했다. 또한 너무 많은 버튼을 한 번에 제공 하는 것 보다 원하는 기능을 원하는 버튼에 추가할 수 있도록 설계하였다.
 
 <figure>
 <img src="/project-8pmStudios/cameraFunctions.png" alt="Camera Functions">
@@ -133,9 +133,23 @@ gantt
 - *Clapper Board* : Auto Update Info
 - *Preview Screen* : Show Camera State
 
-### 구조
+### a. 구조
 
 <kbd>FilmCamera</kbd>의 구조를 만들 때 '**Dependency Cycle**'을 항상 염두에 두고 종속성을 끊어 주기 위해 노력했다. 따라서 <kbd>FilmCameraController</kbd>에서 카메라의 모든 기능을 참조하고 있는 것이 아니라 카메라의 기능들이 컨트롤러를 참조하고 각 기능이 알맞은 콜백함수에 구독하는 방식으로 설계하였다. 이렇게 설계함으로써 <kbd>FilmCameraController</kbd>가 카메라 기능들로부터 자유로워지고 원하는 기능을 코드의 수정 없이 추가하거나 뺄 수 있게 되었다. 
+
+##### Delegate Funcitons
+
+{% highlight cs %}
+#region Delegates
+public delegate void FilmCamButton();
+public delegate void FilmCamJoystick(float val);
+
+public FilmCamButton PrimaryButtonAction;
+public FilmCamButton SecondaryButtonAction;
+public FilmCamButton MenuButtonAction;
+public FilmCamJoystick JoystickAction;
+#endregion
+{% endhighlight %}
 
 ##### FilmCamera Sequence Diagram
 
@@ -188,7 +202,7 @@ sequenceDiagram
 
 <br />
 
-### CameraZoom
+### b. CameraZoom
 카메라 줌은 <kbd>FixedLensZoom</kbd>, <kbd>SmoothZoom</kbd> 두가지 모드를 제공한다.\
 조이스틱을 **Z축** 방향으로만 움직일 수 있고 당기면 줌인 밀면 줌아웃이 된다.
 
@@ -277,7 +291,7 @@ public int GetLensIndex(float fov)
 
 <br />
 
-### CameraFocus
+### c. CameraFocus
 
 포커스 기능은 중앙점에서 바라보고 있는 물체에 자동으로 초점을 맞춘다. 포커스 모드에는 <kbd>매뉴얼 포커스</kbd> 모드와 <kbd>오토 포커스</kbd> 모드가 있다.
 
@@ -326,15 +340,15 @@ private IEnumerator Focusing()
 }
 {% endhighlight %}
 
-포커스 기능은 `.SphereCast`를 쏴서 맞춘 대상 까지의 거리를 _dof의 `.focusDistance.value`에 넣어준다. 부드럽게 전환을 주기위해 `Mathf.Lerp`와 AnimationCurve를 사용하였다.
+포커스 기능은 `.SphereCast`를 쏴서 맞춘 대상까지의 거리를 _dof의 `.focusDistance.value`에 넣어준다. 부드럽게 전환을 주기 위해 `Mathf.Lerp`와 AnimationCurve를 사용하였다.
 
 <figure>
 <img src="/project-8pmStudios/focusCurve.png" alt="camera auto focus">
 <figcaption>Fig 3. Focus Curve.</figcaption>
 </figure>
 
-### CameraStabilizer
-VR 컨트롤러는 사용자의 움직임을 정확하게 따라가야 되기 때문에 작은 움직임도 다 파악한다. 하지만 사용자 컨트롤러의 민감도는 카메라를 들고 촬영시 치명적일 수 있다. <kbd>CameraStabilizer</kbd>는 이러한 손떨림 문제를 해결해준다.
+### d. CameraStabilizer
+VR 컨트롤러는 사용자의 움직임을 정확하게 따라가야 하므로 작은 움직임도 다 파악한다. 하지만 사용자 컨트롤러의 민감도는 카메라를 들고 촬영 시 치명적일 수 있다. <kbd>CameraStabilizer</kbd>는 이러한 손 떨림 문제를 해결해준다.
 
 <figure>
 <img src="/project-8pmStudios/cameraStabilizer.gif" alt="camera stabilizer">
@@ -369,7 +383,7 @@ void Update()
 
 <br />
 
-### ClapperBoard & Preview Screen
+### e. ClapperBoard & Preview Screen
 
 <kbd>ClapperBoard</kbd>는 영상 편집자에게 카메라의 <kbd>PreviewScreen</kbd>은 촬영 감독에게 아주 중요한 정보를 제공한다.
 
@@ -404,13 +418,13 @@ private void Clap()
 private void Action() => _animator.SetTrigger("action");
 {% endhighlight %}
 
-<kbd>ClapperBoard</kbd> 정보 대부분은 `studioPreset` 이라는 **Scriptable Object**에 기록된 정보를 가져온다. 녹화가 시작된면 작은 딜레이 이후에 슬레이트를 치게된다. 
+<kbd>ClapperBoard</kbd> 정보 대부분은 `studioPreset` 이라는 **Scriptable Object**에 기록된 정보를 가져온다. 녹화가 시작되면 작은 딜레이 이후에 슬레이트를 치게 된다. 
 
 <br />
 
-## ControlDeskSystem
+## 2. ControlDeskSystem
 
-<kbd>ControlDeskSystem</kbd>는 촬영감독이 한곳에서 여러대 카메라를 한번에 제어하거나 찍은 영상을 확인하는 목적으로 사용된다. 
+<kbd>ControlDeskSystem</kbd>는 촬영감독이 한곳에서 여러 대 카메라를 한 번에 제어하거나 찍은 영상을 확인하는 목적으로 사용된다. <kbd>FilmCamera</kbd>와 마찬가지로 너무 많은 버튼을 한꺼번에 제공하면 사용가 햇갈려 하고 사용자 경험이 더 떨어질 수 있기 때문에 같은 버튼을 모드 스위치를 통해 다른 기능을 수행하게끔 구현하였다.
 
 <figure>
 <img src="/project-8pmStudios/controlDeskButtons.png" alt="ControlDeskSystem Buttons">
@@ -433,11 +447,26 @@ private void Action() => _animator.SetTrigger("action");
 - *Primary Button*: 영상 재생/일시정지, 영상 삭제 확인
 - *Secondary Button*: 영상 삭제, 영상 삭제 취소
 
-### 구조
+### a. 구조
 
-<kbd>ControlDeskSystem</kbd>의 구조는 <kbd>FilmCamera</kbd>의 구조와 비슷하다. <kbd>ControlDeskSystem</kbd>의 기능은 모드가 변경될 때 마다 콜백함수에 구독되는 기능이 바뀌게 된다. 
+<kbd>ControlDeskSystem</kbd>의 구조는 <kbd>FilmCamera</kbd>의 구조와 비슷하다. <kbd>ControlDeskSystem</kbd>의 기능은 모드가 변경될 때마다 콜백함수에 구독되는 기능이 바뀌게 된다. 
 
-##### FilmCamera Sequence Diagram
+##### Delegate Funcitons
+
+{% highlight cs %}
+#region Delegates
+public delegate void ModeControlDeskButton(ControlMode mode);
+public delegate void ControlDeskButton();
+
+public ModeControlDeskButton ModeSwitchAction = null;
+public ControlDeskButton PreviousAction = null;
+public ControlDeskButton NextAction = null;
+public ControlDeskButton PrimaryAction = null;
+public ControlDeskButton SecondaryAction = null;
+#endregion
+{% endhighlight %}
+
+##### ControlDeskSystem Sequence Diagram
 
 @startmermaid
 sequenceDiagram
@@ -525,9 +554,9 @@ sequenceDiagram
 
 <br />
 
+### b. FilmCameraManager
 
-### FilmCameraManager
-
+<kbd>ControlDeskSystem</kbd>에서 모드 변경 신호가 들어오면 구독된 `OnModeChange()` 함수가 호출되고 모드가 변경될 때마다 콜백함수에 구독하거나 취소하게 된다. 
 
 ##### FilmCameraManager.cs
 
@@ -552,44 +581,296 @@ private void OnModeChange(ControlMode mode)
 }
 {% endhighlight %}
 
+<kbd>FilmCameraManager</kbd>는 여러 대의 카메라를 관리하는 역할을 가지고 있다.
+
+<figure>
+<img src="/project-8pmStudios/switchCam.gif" alt="Switch Camera View">
+<figcaption>Fig 7. Switch Camera View.</figcaption>
+</figure>
+
+##### FilmCameraManager.cs
+
+{% highlight cs %}
+private void ShowScreen(int index)
+{
+    if (_filmCameras.Count > index)
+    {
+        var sc = _filmCameras[index].GetComponentInChildren<ScreenController>();
+        _viewScreen.GetComponent<Renderer>().material.mainTexture = sc.NotRecordingRt;
+    }
+}
+{% endhighlight %}
+
+<kbd>NextButton</kbd>이나 <kbd>PreviousButton</kbd>이 호출되면 다음 인덱스를 `ShowScreen()`에 넘겨준다. 넘겨받은 인덱스에 해당하는 카메라의 **RenderTexture를** <kbd>ScreenController</kbd>로 부 터 받아온다. 받아온 **RT**를 화면 메테리얼에 넣어준다.
+
 <br />
 
-### VideoPlayerManager
+### c. VideoPlayerManager
 
+<kbd>VideoPlayerManager</kbd>는 찍은 영상을 바로 확인할 수 있게 해준다.
+
+<figure>
+<img src="/project-8pmStudios/watchSaved.gif" alt="Watch Saved Video">
+<figcaption>Fig 8. Watch Saved Video.</figcaption>
+</figure>
 
 ##### VideoPlayerManager.cs
 
 {% highlight cs %}
+/// <summary>
+/// Update video name list.
+/// 영상이 저장되면 호출된다.
+/// </summary>
+public void UpdateVideoList()
+{
+    var fileNames = Directory.GetFiles(CAPTURE_PATH, "*.mp4");
+    Array.Sort(fileNames);
 
+    if (_videoNames == null)
+    {
+        _videoNames = new List<string>();
+    }
+    else if (_videoNames.Count > 0)
+    {
+        _videoNames.Clear();
+    }
+
+    foreach (var name in fileNames)
+    {
+        _videoNames.Add(Path.GetFileNameWithoutExtension(name));
+    }
+}
 {% endhighlight %}
 
+영상 목록은 영상 이름으로 관리를 한다. 새로운 영상이 찍히면 `UpdateVideoList()`가 호출되고 항상 최신 리스트를 가지게 된다.
+
+##### VideoPlayerManager.cs
+
+{% highlight cs %}
+private void PlayPause()
+{
+    if (_videoPlayer.isPlaying)
+        _videoPlayer.Pause();
+    else
+        _videoPlayer.Play();
+}
+
+private void PlayNew(int index)
+{
+    if (_videoPlayer.isPlaying)
+        _videoPlayer.Stop();
+    if (_videoNames.Count > index)
+        StartCoroutine(LoadVideo(_videoNames[index]));
+}
+
+private IEnumerator LoadVideo(string name)
+{
+    if (_isLoading) yield break;
+    _isLoading = true;
+    _videoPlayer.url = CAPTURE_PATH + name + ".mp4";
+    _isLoading = false;
+}
+{% endhighlight %}
+
+현재 재생 영상은 인덱스로 관리된다. 새로운 영상을 불러올 때는 인덱스에 해당하는 영상 이름으로 찾는다. 
+
+<br />
+
+## 3. CameraPathCreator
+
+<kbd>CameraPathCreator</kbd>는 부드러운 곡선을 따라 촬영을 할 때 손쉽게 촬영할 수 있도록 보조한다. 이러한 작업은 작은 디테일 하나하나가 중요하다. 따라서 <kbd>Anchor Point</kbd>와 <kbd>Control Point</kbd>를 VR 상에서 잡아서 원하는 곳에 배치할 수 있게 하였다. <kbd>Cart</kbd>에 카메라를 장착하고 버튼을 누르면 설정한 속도로 <kbd>Cart</kbd>가 움직이게 된다.
 
 <figure>
-<img src="/project-8pmStudios/path.gif" alt="ilustrasi repo yang mau diupdate">
-<figcaption>Fig 1. Gambaran ribetnya.</figcaption>
+<img src="/project-8pmStudios/pathCreator.png" alt="Path Creator">
+<figcaption>Fig 9. Path Creator.</figcaption>
 </figure>
+
+### a. 구조
+
+<kbd>CameraPathCreator</kbd>는 <kbd>Object Pool</kbd>에서 미리 만들어진 **Point**들을 배치하고 <kbd>PathViewer</kbd>가 **Point**들을 이어서 **Path**를 만든다. 
+
+##### CameraPathCreator Sequence Diagram
+
+@startmermaid
+sequenceDiagram
+    participant OP as ObjectPool
+    participant PC as PathCreator
+    participant PD as PointDetector
+    participant PV as PathViewer
+
+    activate OP
+    activate PC
+    OP->>OP: Create Pool
+    PC-->>+PV: if point > 1 : Update Viewer
+    alt point not detected
+        PC-->>+OP: Has Input : Request Point
+        OP->>-PC: Return Point
+    else point detected
+        PD-->>PC: OnTriggerEnter With Point
+        PC-->>+OP: Has Input : Remove Point
+        OP->>-PC: Remove Point
+    end
+    deactivate PV
+    deactivate PC
+    deactivate OP
+@endmermaid
+
+### b. BezierCurves
 
 <figure>
-<img src="/project-8pmStudios/pathCart.gif" alt="create camera path">
-<figcaption>Fig 1. Camera path + Cart.</figcaption>
+<img src="/project-8pmStudios/controlPath.gif" alt="Bezier Curve">
+<figcaption>Fig 10. Bezier Curve.</figcaption>
 </figure>
 
+##### BezierCurves.cs
 
+<kbd>CameraPathCreator</kbd>의 핵심인 **BezierCurve**이다. [위키](https://en.wikipedia.org/wiki/Bézier_curve)의 공식을 참고해서 static 클래스를 만들어 사용하였다.
+
+{% highlight cs %}
+public static Vector3 LinearBezierCurves(Vector3 a, Vector3 b, float t)
+{
+    return a + t * (b - a);
+}
+
+public static Vector3 QuadraticBezierCurves(Vector3 a, Vector3 b, Vector3 c, float t)
+{
+    return Mathf.Pow(1 - t, 2) * a + 2 * (1 - t) * t * b + Mathf.Pow(t, 2) * c;
+}
+
+public static Vector3 CubicBezierCurves(Vector3 a, Vector3 b, Vector3 c, Vector3 d, float t)
+{
+    return Mathf.Pow(1 - t, 3) * a + 3 * Mathf.Pow(1 - t, 2) * t * b +
+        3 * (1 - t) * Mathf.Pow(t, 2) * c + Mathf.Pow(t, 3) * d;
+}
+{% endhighlight %}
+
+<br />
+
+### c. PathCreator
+
+<kbd>PathCreator</kbd>는 <kbd>CameraPathCreator</kbd>의 중심축으로 <kbd>Object Pool</kbd>와 <kbd>PathViewer</kbd> 사이에서 컨트롤 하는 작업을 한다. 
 
 <figure>
-<img src="/project-8pmStudios/controlPath.gif" alt="control camera path">
-<figcaption>Fig 1. Control camera path.</figcaption>
+<img src="/project-8pmStudios/path.gif" alt="Create Path">
+<figcaption>Fig 11. Create Path.</figcaption>
 </figure>
+
+##### PathCreator.cs
+
+{% highlight cs %}
+/// <summary>
+/// Gets called when an active Path Point is not detected
+/// and when the VR button is pressed.
+/// </summary>
+public void AddPoint()
+{
+    if (!_detector.IsTriggerStay)
+    {
+        var point = _pool.ActivatePoint(spawnPoint.position, spawnPoint.rotation);
+        if (point != null)
+        {
+            _points.Add(point);
+        }
+        if (_points.Count > 1)
+        {
+            _cart.transform.position = _points[0].position;
+            _cart.SetActive(true);
+        }
+    }
+}
+
+/// <summary>
+/// Gets called when an active Path Point is detected
+/// and when the VR button is pressed.
+/// </summary>
+/// <param name="point"></param>
+public void RemovePoint(Transform point)
+{
+    int index = _points.FindIndex(p => p == point);
+    if (index != -1)
+    {
+        _pool.TerminatePoint(_points[index]);
+        _points.RemoveAt(index);
+    }
+
+    if (_points.Count < 2)
+    {
+        _cart.SetActive(false);
+    }
+}
+{% endhighlight %}
+
+**Point**의 생성은 <kbd>PointDetector</kbd>에 **Point**가 트리거되는것이 없을때만 가능하다. 
+
+**Point**의 삭제는 <kbd>PointDetector</kbd>로 부터 건네 받은 **Point**의 **Transform**의 인덱스를 찾아 <kbd>ObjectPool</kbd>에서 `.TerminatePoint()` 과정을 거친다. 
+
+<br />
+
+### d. PathPool
+
+<kbd>PathPool</kbd>은 Stack을 이용했다. **has-a** 방식으로 **Object Pool**을 생성하여 **MonoBehaviour**의 life cycle을 타지 않게 하였다.
+
+##### PathPool.cs
+
+{% highlight cs %}
+public PathPool(MonoBehaviour mono, GameObject spawnObject, int pathCount)
+{
+    InitVariables(mono, spawnObject, pathCount);
+    CreatePool();
+}
+
+private void CreatePool()
+{
+    _poolRoot = GameObject.Find("PathPool");
+    if (_poolRoot == null)
+    {
+        _poolRoot = new GameObject("PathPool");
+    }
+    for (int i = 0; i < _pathCount; i++)
+    {
+        var point = MonoBehaviour.Instantiate(_spawnObject, _mono.transform.position,
+            Quaternion.identity, _poolRoot.transform);
+        point.SetActive(false);
+        _pathPool.Push(point);
+    }
+}
+{% endhighlight %}
+
+<br />
+
+### e. PathViewer
+
+<kbd>PathViewer</kbd>는 처음 생성자에서 넘겨받은 **Point** 리스트 레퍼런스를 가지고 **LineRenderer**를 통해 선을 그린다.
 
 <figure>
-<img src="/project-8pmStudios/switchCam.gif" alt="switch camera view">
-<figcaption>Fig 1. Switch camera view.</figcaption>
+<img src="/project-8pmStudios/pathCart.gif" alt="Camera Path + Cart">
+<figcaption>Fig 12. Camera Path + Cart.</figcaption>
 </figure>
 
-<figure>
-<img src="/project-8pmStudios/watchSaved.gif" alt="watch saved video">
-<figcaption>Fig 1. Watch saved video.</figcaption>
-</figure>
+##### PathViewer.cs
 
+{% highlight cs %}
+/* Cubic Bezier Curve */
+case var expression when points > 3:
+    t = 0f;
+    for (int i = 0; i < SegmentCount(); i++)
+    {
+        var cp1 = _points[i * 3 + 1].GetComponent<Renderer>();
+        var cp2 = _points[i * 3 + 2].GetComponent<Renderer>();
+        cp1.material = _controlPointMat;
+        cp2.material = _controlPointMat;
 
+        Vector3[] segment = GetPointsInSegment(i);
+        for (int j = 0; j < _lr.positionCount; j++)
+        {
+            _lr.SetPosition(j, BezierCurves.CubicBezierCurves(
+                segment[0], segment[1], segment[2], segment[3], t));
+            t += (1 / (float)_lr.positionCount);
+        }
+    }
+    break;
+{% endhighlight %}
 
+`.GetPointsInSegment()`는 **Point**를 3개씩 겹치도록 반환 한다.
+
+<br />
