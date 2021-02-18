@@ -9,7 +9,7 @@ description: 8pm STUDIOS는 아마추어 배우, 작가, 연출, 촬영감독들
 image: /project-8pmStudios/intro.png
 ---
 
-# 프로젝트 소개
+
 
 <figure>
 <img src="/project-8pmStudios/intro.png" alt="8pm Studios intro">
@@ -19,8 +19,26 @@ image: /project-8pmStudios/intro.png
 **팀원:** 김지윤, 신철호, 김현우\
 **개발 환경:** Unity 2020.1, Visual Studio, GitLab\
 **제작 기간:** 2020.12.28 ~ 2021.02.08\
-**YouTube:** 
 <br />
+
+<hr>
+
+# Index
+
+**1. [<kbd> 프로젝트 소개 </kbd>](#프로젝트-소개)**
+- [<kbd> 목적 </kbd>](#목적)
+- [<kbd> 구조 </kbd>](#구조)
+- [<kbd> 역할 분담 및 수행 절차 </kbd>](#역할-분담-및-수행-절차)
+
+**2. [<kbd> 프로젝트 기능 </kbd>](#프로젝트-기능)**
+- [<kbd> FilmCamera </kbd>](#1-filmcamera)
+- [<kbd> ControlDeskSystem </kbd>](#2-controldesksystem)
+- [<kbd> CameraPathCreator </kbd>](#3-camerapathcreator)\
+<br />
+
+<hr>
+
+# 프로젝트 소개
 
 ### 목적
 <kbd>8pm STUDIOS</kbd>는 아마추어 배우, 작가, 연출, 촬영감독들을 연결하는 **가상 영화 촬영 플랫폼**이다.
@@ -38,13 +56,12 @@ image: /project-8pmStudios/intro.png
 - 영화 및 애니메이션 제작을 위한 가상현실 콘티 등으로 활용 가능
 - 영화팬들은 2차 창작을 통해 영화 속 주인공이 된 듯한 체험을 할 수 있음
 
-<br />
-
 ### 구조
 
 사용자들은 제작 영화의 주제 또는 키워드별로 방을 만들고 필요한 역할을 구할 수 있다. 팀이 구성되면 가상 환경 속에서 배우는 연기를, 연출감독은 환경 세팅을, 촬영감독은 촬영을 진행한다. 전체적인 플로우는 다음과 같다.
 
 ##### Main Flow
+
 @startmermaid
 sequenceDiagram
     participant U as User
@@ -74,8 +91,6 @@ sequenceDiagram
     deactivate R
     M-->>-U: Back to room create/select
 @endmermaid
-
-<br />
 
 ### 역할 분담 및 수행 절차
 ##### 팀 구성원
@@ -109,8 +124,6 @@ gantt
     카메라 경로, 버그 수정    :beta3, after beta2, 4d
     영상 촬영, 발표준비    :beta4, after beta3, 2d
 @endmermaid
-
-<br />
 
 # 프로젝트 기능
 
@@ -200,8 +213,6 @@ sequenceDiagram
     deactivate FCC
 @endmermaid
 
-<br />
-
 ### b. CameraZoom
 카메라 줌은 <kbd>FixedLensZoom</kbd>, <kbd>SmoothZoom</kbd> 두가지 모드를 제공한다.\
 조이스틱을 **Z축** 방향으로만 움직일 수 있고 당기면 줌인 밀면 줌아웃이 된다.
@@ -223,7 +234,8 @@ private void Zoom(float dir)
 {
     var fov = _cam.fieldOfView + dir * zoomAmount * Time.deltaTime;
     _cam.fieldOfView = Mathf.Clamp(fov,
-        lensPresets.Lens[lensPresets.Lens.Length - 1].FoV, lensPresets.Lens[0].FoV);
+        lensPresets.Lens[lensPresets.Lens.Length - 1].FoV,
+            lensPresets.Lens[0].FoV);
 }
 
 /// <summary>
@@ -234,7 +246,8 @@ private void FixedLens(float dir)
 {
     var fov = _cam.fieldOfView + dir * zoomAmount * Time.deltaTime;
     var fovClamp = Mathf.Clamp(fov,
-        lensPresets.Lens[lensPresets.Lens.Length - 1].FoV, lensPresets.Lens[0].FoV);
+        lensPresets.Lens[lensPresets.Lens.Length - 1].FoV,
+            lensPresets.Lens[0].FoV);
     var index = lensPresets.GetLensIndex(fovClamp);
     _cam.fieldOfView = lensPresets.Lens[index].FoV;
 }
@@ -283,13 +296,12 @@ public int GetLensIndex(float fov)
 {
     for (int i = 0; i < _lens.Length; ++i)
     {
-        if (Mathf.Abs(_lens[i].FoV) - Mathf.Abs(fov) <= _threshold) return i;
+        if (Mathf.Abs(_lens[i].FoV) - Mathf.Abs(fov) <= _threshold)
+            return i;
     }
     return -1;
 }
 {% endhighlight %}
-
-<br />
 
 ### c. CameraFocus
 
@@ -381,8 +393,6 @@ void Update()
 
 '**Unity Camera**'의 포지션값과 로테이션값은 설정한 `camAnchor`로 포지션은 거리에 따라, 로테이션은 각도에 따라 Lerp한 값이 적용된다.
 
-<br />
-
 ### e. ClapperBoard & Preview Screen
 
 <kbd>ClapperBoard</kbd>는 영상 편집자에게 카메라의 <kbd>PreviewScreen</kbd>은 촬영 감독에게 아주 중요한 정보를 제공한다.
@@ -419,8 +429,6 @@ private void Action() => _animator.SetTrigger("action");
 {% endhighlight %}
 
 <kbd>ClapperBoard</kbd> 정보 대부분은 `studioPreset` 이라는 **Scriptable Object**에 기록된 정보를 가져온다. 녹화가 시작되면 작은 딜레이 이후에 슬레이트를 치게 된다. 
-
-<br />
 
 ## 2. ControlDeskSystem
 
@@ -552,8 +560,6 @@ sequenceDiagram
     deactivate CDS
 @endmermaid
 
-<br />
-
 ### b. FilmCameraManager
 
 <kbd>ControlDeskSystem</kbd>에서 모드 변경 신호가 들어오면 구독된 `OnModeChange()` 함수가 호출되고 모드가 변경될 때마다 콜백함수에 구독하거나 취소하게 된다. 
@@ -602,8 +608,6 @@ private void ShowScreen(int index)
 {% endhighlight %}
 
 <kbd>NextButton</kbd>이나 <kbd>PreviousButton</kbd>이 호출되면 다음 인덱스를 `ShowScreen()`에 넘겨준다. 넘겨받은 인덱스에 해당하는 카메라의 **RenderTexture를** <kbd>ScreenController</kbd>로 부 터 받아온다. 받아온 **RT**를 화면 메테리얼에 넣어준다.
-
-<br />
 
 ### c. VideoPlayerManager
 
@@ -674,8 +678,6 @@ private IEnumerator LoadVideo(string name)
 
 현재 재생 영상은 인덱스로 관리된다. 새로운 영상을 불러올 때는 인덱스에 해당하는 영상 이름으로 찾는다. 
 
-<br />
-
 ## 3. CameraPathCreator
 
 <kbd>CameraPathCreator</kbd>는 부드러운 곡선을 따라 촬영을 할 때 손쉽게 촬영할 수 있도록 보조한다. 이러한 작업은 작은 디테일 하나하나가 중요하다. 따라서 <kbd>Anchor Point</kbd>와 <kbd>Control Point</kbd>를 VR 상에서 잡아서 원하는 곳에 배치할 수 있게 하였다. <kbd>Cart</kbd>에 카메라를 장착하고 버튼을 누르면 설정한 속도로 <kbd>Cart</kbd>가 움직이게 된다.
@@ -744,8 +746,6 @@ public static Vector3 CubicBezierCurves(Vector3 a, Vector3 b, Vector3 c, Vector3
 }
 {% endhighlight %}
 
-<br />
-
 ### c. PathCreator
 
 <kbd>PathCreator</kbd>는 <kbd>CameraPathCreator</kbd>의 중심축으로 <kbd>Object Pool</kbd>와 <kbd>PathViewer</kbd> 사이에서 컨트롤 하는 작업을 한다. 
@@ -802,9 +802,7 @@ public void RemovePoint(Transform point)
 
 **Point**의 생성은 <kbd>PointDetector</kbd>에 **Point**가 트리거되는것이 없을때만 가능하다. 
 
-**Point**의 삭제는 <kbd>PointDetector</kbd>로 부터 건네 받은 **Point**의 **Transform**의 인덱스를 찾아 <kbd>ObjectPool</kbd>에서 `.TerminatePoint()` 과정을 거친다. 
-
-<br />
+**Point**의 삭제는 <kbd>PointDetector</kbd>로 부터 건네 받은 **Point**의 **Transform**의 인덱스를 찾아 <kbd>ObjectPool</kbd>에서 `.TerminatePoint()` 과정을 거친다.
 
 ### d. PathPool
 
@@ -835,8 +833,6 @@ private void CreatePool()
     }
 }
 {% endhighlight %}
-
-<br />
 
 ### e. PathViewer
 

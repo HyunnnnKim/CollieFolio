@@ -230,11 +230,6 @@ h6 > a {
 
 // Link
 a {
-  /* added by hw */
-  padding: 5px;
-  text-decoration: none;
-  /* added by hw end */
-
   color: inherit;
   text-decoration-color: $smoke;
 
@@ -247,6 +242,12 @@ a {
     outline-offset: 2px;
   }
 }
+/* added by hw */
+.icon {
+  padding: 6px;
+  text-decoration: none;
+}
+/* added by hw end */
 
 // Del
 del {

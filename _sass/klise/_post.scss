@@ -77,7 +77,7 @@
 
   figure {
     img {
-      border-radius: 6px;
+      border-radius: 2px;
     }
 
     figcaption {
@@ -102,13 +102,16 @@
   }
 
   img {
-    border-radius: 6px;
+    border-radius: 3px;
   }
   .round {
     border-radius: 100%;
   }
 
   table, th, td, tr{
+    
+  }
+  .profile {
     border: 1px white;
   }
   /* added by hw end */
@@ -218,10 +221,11 @@
 
   /* added by hw */
   .mermaid {
-    background-color: rgba($color: #fffef0, $alpha: 1.0);
+    width: max-content;
+    //background-color: rgb(25, 25, 30);
+    background-color: rgb(255, 255, 255);
+    //box-shadow: 0px 3px 6px gray;
     //filter: invert(0.2);
-    width: min-content;
-    //max-height: 600px;
   }
   /* added by hw end */
 }
