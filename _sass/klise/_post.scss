@@ -77,7 +77,9 @@
 
   figure {
     img {
-      border-radius: 2px;
+      border-radius: 3px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     figcaption {
@@ -90,8 +92,10 @@
   /* added by hw */
   figure-round {
     img {
-      width: fit-content;
+      display: block;
       border-radius: 100%;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     figcaption {
@@ -103,9 +107,14 @@
 
   img {
     border-radius: 3px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .round {
+    display: block;
     border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   table, th, td, tr{
