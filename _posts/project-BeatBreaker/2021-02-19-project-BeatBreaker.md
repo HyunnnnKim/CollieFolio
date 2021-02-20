@@ -48,11 +48,36 @@ description: 날아오는 비트를 비트에 맞게 치는 VR 리듬 복싱 게
 </figure>
 
 <figure>
+<img src="/project-BeatBreaker/selectMusic.gif" alt="selectMusic.gif">
+<figcaption>Fig 2. Choose Music.</figcaption>
+</figure>
+
+<figure>
+<img src="/project-BeatBreaker/bagBlink.gif" alt="bagBlink.gif">
+<figcaption>Fig 3. Blink.</figcaption>
+</figure>
+
+<figure>
 <img src="/project-BeatBreaker/beatHit.gif" alt="beatHit.gif">
-<figcaption>Fig 2. Hit Beat.</figcaption>
+<figcaption>Fig 3. Hit Beat.</figcaption>
 </figure>
 
 <figure>
 <img src="/project-BeatBreaker/beatMiss.gif" alt="beatMiss.gif">
-<figcaption>Fig 3. Miss Beat.</figcaption>
+<figcaption>Fig 4. Miss Beat.</figcaption>
+</figure>
+
+<figure>
+<img src="/project-BeatBreaker/feverEnter.gif" alt="feverEnter.gif">
+<figcaption>Fig 5. Enter Fever.</figcaption>
+</figure>
+
+<figure>
+<img src="/project-BeatBreaker/selectAlbum.gif" alt="selectAlbum.gif">
+<figcaption>Fig 7. Select Album.</figcaption>
+</figure>
+
+<figure>
+<img src="/project-BeatBreaker/keyboard.gif" alt="keyboard.gif">
+<figcaption>Fig 7. Physics Keyboard.</figcaption>
 </figure>
