@@ -43,17 +43,16 @@ description: 날아오는 비트를 비트에 맞게 치는 VR 리듬 복싱 게
 ![](musicSelect.mp4)
 
 <figure>
-<img src="/project-BeatBreaker/musicSelect.gif" alt="musicSelect.gif">
+<img src="/project-BeatBreaker/musicPick.gif" alt="musicPick.gif">
+<figcaption>Fig 1. Select Music.</figcaption>
 </figure>
 
 <figure>
-<img src="/project-BeatBreaker/punchHit.gif" alt="punchHit.gif">
+<img src="/project-BeatBreaker/beatHit.gif" alt="beatHit.gif">
+<figcaption>Fig 2. Hit Beat.</figcaption>
 </figure>
 
 <figure>
 <img src="/project-BeatBreaker/beatMiss.gif" alt="beatMiss.gif">
-</figure>
-
-<figure>
-<img src="/project-BeatBreaker/changeFever.gif" alt="changeFever.gif">
+<figcaption>Fig 3. Miss Beat.</figcaption>
 </figure>
