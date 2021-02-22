@@ -28,6 +28,7 @@ group :jekyll_plugins do
   gem 'jekyll-mermaid'
   gem 'jekyll-spaceship'
   gem 'rouge'
+  gem 'googlecharts'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -15,7 +15,7 @@ description: 부유 쓰레기를 수거하는 보트 게임.
 **팀명:** CodeSurfers\
 **팀원:** 정은채, 김현우\
 **개발 환경:** Unity 2019.4 URP, Visual Studio, GitLab\
-**제작 기간:** 2020.08.18 ~ 2021.09.15\
+**제작 기간:** 2020.08.18 ~ 2020.09.15\
 **YouTube:** [Garbage Collector Devlog](https://www.youtube.com/watch?v=nUcayipipwk&t=77s)
 <br />
 
@@ -49,7 +49,7 @@ description: 부유 쓰레기를 수거하는 보트 게임.
 <figcaption>Fig 1. Target Game.</figcaption>
 </figure>
 
-타겟은 보트 레이싱 게임인 '**더 크루 2**'이다. 이 게임에서 최대한 따라 하려고 한 몇 가지 포이트가 있다.
+타겟은 보트 레이싱 게임인 '**더 크루 2**'이다. 이 게임에서 최대한 따라 하려고 한 몇 가지 포인트가 있다.
 - 잔잔한 바다
 - 물 이펙트
 - 통통 튀는 보트
@@ -91,6 +91,11 @@ stateDiagram-v2
 ### 역할 분담 및 개발 일정
 ##### 팀 구성원
 
+| :정은채: | :김현우: |
+| :----- | :----- |
+| - 보트의 움직임    | - 환경 (바다, 섬) \
+| - 보트의 후크 | - Garbage의 움직임     \
+| - 장애물 움직임  | - Game System & UI   \
 
 ##### 개발 일정
 @startmermaid
