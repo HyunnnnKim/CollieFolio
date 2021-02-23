@@ -265,7 +265,7 @@
           padding: 5px 0 5px 30px;
           p {
             font-weight: 400;
-            line-height: 0.8rem;
+            line-height: 1.3rem;
             font-size: 1.2rem;
           }
           .date {
@@ -301,11 +301,11 @@
     .skills {
       padding-top: 35px;
       ul.skill-list {
-        margin-top: 10px;
+        margin-top: 1px;
         margin-left: 3%;
         list-style-type: none;
         li.skill {
-          margin: 5px auto;
+          margin: 3px auto;
           .name {
             padding-left: 5px;
             font-size: 0.95rem;
@@ -314,7 +314,7 @@
           .progress {
             position: relative;
             overflow: hidden;
-            width: 100%;
+            width: 93%;
             height: 16px;
             background-color: $dark-smoke;
             border-radius: 5px;
@@ -327,7 +327,7 @@
           }
           .progress-bar {
             position: absolute;
-            height: 18px;
+            height: 16px;
             background-color: $dark-text-link-blue;
           }
           .progress-value {
@@ -339,13 +339,22 @@
             line-height: 1.1rem;
           }
         }
+        li::before {
+          content: none;
+          display: inline-block;
+          top: -1px;
+          width: 1.2em;
+          position: relative;
+          margin-left: -1.3em;
+          font-weight: 700;
+        }
       }
       @keyframes progressAnimation {
         from {
           width: 40%;
         }
         to {
-          width: 100%;
+          width: 93%;
         }
       }
     }

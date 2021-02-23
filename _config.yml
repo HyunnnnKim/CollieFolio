@@ -30,16 +30,14 @@ experience :
     end : 2020-08-03
     experience : Half-Light Lab, OnCollisionEnter with Unity
 skills : 
-  - skill : Unity
+  - skill : Unity & C#
     value : 90  # Percent value
-  - skill : C#
-    value : 85
   - skill : Python
-    value : 60
+    value : 75
 
 icons :
   email: davidkimighty@gmail.com # Full email address, e.g. "sample@google.com"
-  linkedin:  # Full URL 
+  linkedin: https://www.linkedin.com/in/hyun-woo-kim-967b68105/ # Full URL 
   github: hyunnnnkim
   gitlab: hyunnnnkim
   bitbucket:
