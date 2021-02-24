@@ -157,14 +157,14 @@ gantt
 
 <figure>
 <img src="/project-garbageCollector/unity wave.gif" alt="Unity Wave">
-<figcaption>Fig 4. Unity Wave.</figcaption>
+<figcaption>Fig 5. Unity Wave.</figcaption>
 </figure>
 
 결국 마지막에는 [Unity BoatAttack](https://github.com/Unity-Technologies/BoatAttack) 오픈소스의 <kbd>Water System</kbd>을 적용하였다. 앞서 말한 물을 표현하기 위한 요소들은 다 들어가있는 아름다운 물이었다. 물리적으로 인터렉션이 불가능했지만 <kbd>Buoyancy System</kbd>도 내장되어 있었다. 무엇보다도 **Unity Jobsystem**과 **Burst Compiler**를 이용해 모바일에서도 높은 퀄리티의 물 표현과 인터렉션이 가능하다는 게 흥미로웠다.
 
 <figure>
 <img src="/project-garbageCollector/waterMesh.png" alt="Water Mesh">
-<figcaption>Fig 5. Water Mesh.</figcaption>
+<figcaption>Fig 6. Water Mesh.</figcaption>
 </figure>
 
 최적화를 위해 원 형태로 중앙으로 갈수록 LOD가 높은 매쉬를 사용했고 플레이어를 계속 따라다니면 티가 나기 때문에 일정 거리 이상 벌어지면 그때 플레이어 위치로 순간이동 시킨다.
@@ -173,7 +173,7 @@ gantt
 
 <figure>
 <img src="/project-garbageCollector/terrain.PNG" alt="Procedural Terrain">
-<figcaption>Fig 5. Procedural Terrain.</figcaption>
+<figcaption>Fig 7. Procedural Terrain.</figcaption>
 </figure>
 
 <kbd>Procedural Terrain</kbd>은 god like coder **Sebastian Lague**의 [Procedural Landmass Generation](https://www.youtube.com/watch?v=wbpMiKiSKm8&list=PLFt_AvWsXl0eBW2EiBtl_sxmDtSgZBxB3)의 시리즈의 일부분을 적용하였다.
@@ -182,7 +182,7 @@ gantt
 
 | <img src="/project-garbageCollector/noise map.gif" alt="Noise Map"> | <img src="/project-garbageCollector/noise map depth colored.gif" alt="Colored"> |
 
-<figure><figcaption>Fig 6. Height Map.</figcaption></figure>
+<figure><figcaption>Fig 8. Height Map.</figcaption></figure>
 
 **Height Map**은 0(Black)과 1(White) 사이의 값으로 높이를 표현한다. 일반적인 노이즈가 아니라 **Perline Noise**를 주면 좀 더 organic 한 느낌을 줘서 산맥이나 물을 표현하는 데 많이 사용되는 것 같다.
 생성된 **Height Map**에 값에 따라 색을 더하면 오른쪽과 같은 결과가 나온다.
@@ -191,7 +191,7 @@ gantt
 
 <figure>
 <img src="/project-garbageCollector/mesh height.gif" alt="Generated Mesh">
-<figcaption>Fig 7. Generated Mesh.</figcaption>
+<figcaption>Fig 9. Generated Mesh.</figcaption>
 </figure>
 
 **Mesh**의 vertex 를 **Height Map**의 높이값에 따라 조정하면 산맥 느낌을 만들 수 있다.
@@ -200,7 +200,7 @@ gantt
 
 <figure>
 <img src="/project-garbageCollector/prototype.1.gif" alt="Prototype Result">
-<figcaption>Fig 7. Prototype Result.</figcaption>
+<figcaption>Fig 10. Prototype Result.</figcaption>
 </figure>
 
 여기까지가 **Prototype**의 결과다.
@@ -209,7 +209,7 @@ gantt
 
 <figure>
 <img src="/project-garbageCollector/floatingGarbage.png" alt="Floating Garbage">
-<figcaption>Fig 8. Floating Garbage.</figcaption>
+<figcaption>Fig 11. Floating Garbage.</figcaption>
 </figure>
 
 <kbd>Garbage</kbd>는 플레이어가 <kbd>Grappling Hook</kbd>으로 건져내면 점수가 올라간다. 때문에 그냥 둥둥 떠다니면 너무 쉽고 재미가 없다.
@@ -271,7 +271,7 @@ stateDiagram-v2
 
 <figure>
 <img src="/project-garbageCollector/objectPool.png" alt="Object Pool">
-<figcaption>Fig 9. Garbage Pool.</figcaption>
+<figcaption>Fig 12. Garbage Pool.</figcaption>
 </figure>
 
 <kbd>Garbage Pool</kbd>은 딕셔너리와 큐로 구현하였다.
@@ -327,7 +327,7 @@ private void CreatePools()
 
 <figure>
 <img src="/project-garbageCollector/spawnArea.gif" alt=" Random Spawner">
- <figcaption>Fig 10. Random Spawner.</figcaption>
+ <figcaption>Fig 13. Random Spawner.</figcaption>
 </figure>
 
 <kbd>Random Spawner</kbd>를 원하는 곳에 배치하고 범위를 정할 수 있다. 범위는 큐브 형태이다.
@@ -364,21 +364,21 @@ private void RandomPointSpawn()
 
 <figure>
 <img src="/project-garbageCollector/garbageDetect.png" alt="Garbage Detect Area">
-<figcaption>Fig 11. Garbage Detect Area.</figcaption>
+<figcaption>Fig 14. Garbage Detect Area.</figcaption>
 </figure>
 
 Gizmos로 보이는 범위가 <kbd>Garbage</kbd>의 <kbd>Detect Range</kbd>이다. 플레이어가 범위안에 들어오면 **Navmesh Agent**가 활성화 되고 플레이어 반대 방향으로 도망친다.
 
 <figure>
 <img src="/project-garbageCollector/navmeshBake.png" alt="Bake Area">
-<figcaption>Fig 12. Bake Area.</figcaption>
+<figcaption>Fig 15. Bake Area.</figcaption>
 </figure>
 
 **Bake**된 모습이다. 물 Mesh는 static이 아니기 때문에 static인 plane 하나를 만들어 **Bake**를 하고 Collider와 Mesh Renderer를 꺼버렸다.
 
 <figure>
 <img src="/project-garbageCollector/collectGarbage.gif" alt="Collect Garbage">
-<figcaption>Fig 13. Collect Garbage.</figcaption>
+<figcaption>Fig 16. Collect Garbage.</figcaption>
 </figure>
 
 플레이어가 <kbd>Garbage</kbd>를 건져내는 느낌은 이 게임의 핵심이다.
@@ -400,7 +400,7 @@ public void Captured()
 
 <figure>
 <img src="/project-garbageCollector/inGameUI.png" alt="In Game UI">
-<figcaption>Fig 14. In Game UI.</figcaption>
+<figcaption>Fig 17. In Game UI.</figcaption>
 </figure>
 
 <kbd>UI</kbd>는 크게 4가지가 있다; <kbd>Main Menu UI</kbd>, <kbd>In Game UI</kbd>, <kbd>Result UI</kbd>, <kbd>Transition UI</kbd>.
@@ -409,7 +409,7 @@ public void Captured()
 
 <figure>
 <img src="/project-garbageCollector/startUI.gif" alt="Main Menu UI">
-<figcaption>Fig 15. Main Menu UI.</figcaption>
+<figcaption>Fig 18. Main Menu UI.</figcaption>
 </figure>
 
 간단한 시작과 종료 UI이다. 
@@ -418,21 +418,21 @@ public void Captured()
 
 <figure>
 <img src="/project-garbageCollector/circleUI.gif" alt="Circle UI">
-<figcaption>Fig 16. Circle Progress UI.</figcaption>
+<figcaption>Fig 19. Circle Progress UI.</figcaption>
 </figure>
 
 <kbd>Circle Progress UI</kbd>는 원래 생성되는 <kbd>Garbage</kbd>의 수 와 플레이어가 건져낸 <kbd>Garbage</kbd>의 수를 표현하기 위한 UI 였으나 화면을 너무 많이 잡아먹어서 파이널 버전에서는 빠졌다.
 
 <figure>
 <img src="/project-garbageCollector/circleH.png" alt="Circle H">
-<figcaption>Fig 17. Circle UI Hierarchy.</figcaption>
+<figcaption>Fig 20. Circle UI Hierarchy.</figcaption>
 </figure>
 
 <kbd>Circle Progress UI</kbd>는 **Slider UI**를 두개를 이용해 만들었다. **Slider**의 손잡이는 게이지에 입체감을 주기위해 납짝하게 만들었고 서로의 영역을 침법하지 않게 하기 위해 **Mask**를 썻다.
 
 | <img src="/project-garbageCollector/circleGlow.png" alt="Circle Glow"> | <img src="/project-garbageCollector/circleSprite.png" alt="Circle Sprite"> |
 
-<figure><figcaption>Fig 18. Circle UI Sprites.</figcaption></figure>
+<figure><figcaption>Fig 21. Circle UI Sprites.</figcaption></figure>
 
 UI 글로우 효과는 이미지 두개를 합쳐서 만들었다. 
 
@@ -440,7 +440,7 @@ UI 글로우 효과는 이미지 두개를 합쳐서 만들었다.
 
 <figure>
 <img src="/project-garbageCollector/endUI.gif" alt="Result UI">
-<figcaption>Fig 19. Result UI.</figcaption>
+<figcaption>Fig 22. Result UI.</figcaption>
 </figure>
 
 <kbd>Result UI</kbd>는 게임이 타임아웃 되면 사용자의 키보드 인풋을 막고 결과 창이 뜬다.
@@ -449,7 +449,7 @@ UI 글로우 효과는 이미지 두개를 합쳐서 만들었다.
 
 <figure>
 <img src="/project-garbageCollector/transition.gif" alt="Transition UI">
-<figcaption>Fig 20. Transition UI.</figcaption>
+<figcaption>Fig 23. Transition UI.</figcaption>
 </figure>
 
 <kbd>Transistion UI</kbd>는 직접 그려서 사용하였다. 
@@ -483,5 +483,5 @@ IEnumerator LoadSceneAsync(int scene)
 
 <figure>
 <img src="/project-garbageCollector/gc_final.gif" alt="Final Result">
-<figcaption>Fig 21. Final Result.</figcaption>
+<figcaption>Fig 24. Final Result.</figcaption>
 </figure>

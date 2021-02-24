@@ -59,38 +59,6 @@ image: /project-8pmStudios/intro.png
 
 사용자들은 제작 영화의 주제 또는 키워드별로 방을 만들고 필요한 역할을 구할 수 있다. 팀이 구성되면 배우는 가상 환경 속에서 연기를 하고 연출감독은 환경 세팅을 하며 촬영감독은 촬영을 진행한다. 전체적인 플로우는 다음과 같다.
 
-##### Main Flow
-
-@startmermaid
-sequenceDiagram
-    participant U as User
-    participant M as Main Room
-    participant L as Lobby
-    participant R as Room
-        
-    par [Create Room]
-        U->>+M: Room Create Process
-        alt can create
-            M-->>L: Grant access to Lobby
-        activate L
-        else can't create, room name already taken.
-            M-->>-U: Back to room creation
-        end
-    and [Select Room]
-        U->>+M: Room Select Process
-        alt can join
-            M-->>L: Grant access to Lobby
-        else can't join, room already full.
-            M-->>-U: Back to room selection
-        end
-    end
-    L-->>+R: Room creator enters the room
-    deactivate L
-    R-->>+M: Exit room
-    deactivate R
-    M-->>-U: Back to room create/select
-@endmermaid
-
 ### 역할 분담 및 수행 절차
 ##### 팀 구성원
 

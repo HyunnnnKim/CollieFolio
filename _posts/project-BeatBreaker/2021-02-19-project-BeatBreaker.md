@@ -28,16 +28,8 @@ description: 날아오는 비트를 비트에 맞게 치는 VR 리듬 복싱 게
 
 **2. [<kbd> 프로젝트 구현 </kbd>](#프로젝트-구현)**
 - [<kbd> VR PLAYER </kbd>](#1-vr-player)
-    - [<kbd> XR Input using Scriptable Object </kbd>](#a-xr-input)
-    - [<kbd> Physics Hand using velocity tracking </kbd>](#b-physics-hand)
-    - [<kbd> Persistent Scene & SceneLoader</kbd>](#c-persistent-scene)
 - [<kbd> MAIN ROOM </kbd>](#2-main-room)
-    - [<kbd> Boxing Bag, the UI controller </kbd>](#a-boxingbag)
-    - [<kbd> Level Selector, UI with smooth motion </kbd>](#b-levelselector)
-- [<kbd> EXERCISE STAGE </kbd>](#3-exercise-stage)
-    - [<kbd> Beat, calculate points </kbd>](#a-beat)
-    - [<kbd> Fever Mode, changing environment </kbd>](#b-fever-mode)
-    - [<kbd> Result Screen, interactions with physics button </kbd>](#c-result-screen)
+- [<kbd> EXERCISE STAGE </kbd>](#3-exercise-stage)\
 <br />
 
 <hr>
@@ -168,7 +160,7 @@ classDiagram
 
 <figure>
 <img src="/project-BeatBreaker/physicshand.png" alt="physicshand.png">
-<figcaption>Fig 3. Physics Hand.</figcaption>
+<figcaption>Fig 2. Physics Hand.</figcaption>
 </figure>
 
 플레이어의 글러브는 **정적**인 사물과도 충돌이 있어야 하기 때문에 **Non-Kinematic Rigidbody** 를 가진다. 이렇게 되면 컨트롤러의 포지션과 로테이션 트레킹을 해야 되는데 이 문제는 [VR with Andrew](https://www.youtube.com/channel/UCG8bDPqp3jykCGbx-CiL7VQ)의 팁을 받아 <kbd>Velocity Tracking</kbd> 방법을 사용하였다.
@@ -303,7 +295,7 @@ private IEnumerator FadeIn()
 
 | <img src="/project-BeatBreaker/chain.png" alt="chain.png"> | <img src="/project-BeatBreaker/bagspring.png" alt="bagspring.png"> |
 
-<figure><figcaption>Fig 18. Boxing Bag Structure.</figcaption></figure>
+<figure><figcaption>Fig 4. Boxing Bag Structure.</figcaption></figure>
 
 <kbd>BoxingBag</kbd>은 **Rigidbody**로 이루어져 있다. 체인은 **Configurable Joint**로 연결돼 있고 고정축만 **Kinematic**이다. <kbd>BoxingBag</kbd> 에 무게감을 주기 위해 약간에 *drag*값이 있다. 또, 쳤을 때 너무 멀리 날아가면 안 되고 타격감을 주기 위해 바닥에는 **Spring Joint**가 <kbd>BoxingBag</kbd>에 연결되어 있다.
 
@@ -311,7 +303,7 @@ private IEnumerator FadeIn()
 
 <figure>
 <img src="/project-BeatBreaker/bagBlink.gif" alt="bagBlink.gif">
-<figcaption>Fig 3. Flicker.</figcaption>
+<figcaption>Fig 5. Flicker.</figcaption>
 </figure>
 
 <kbd>BoxingBag</kbd>은 글러브로 치면 컨셉에 맞게 네온 라이트가 깜빡인다. 
@@ -350,7 +342,7 @@ private Color RandomAverage(Renderer renderer, Color color)
 
 <figure>
 <img src="/project-BeatBreaker/levelselector.png" alt="levelselector.png">
-<figcaption>Fig 3. Level Selector.</figcaption>
+<figcaption>Fig 6. Level Selector.</figcaption>
 </figure>
 
 <kbd>LevelSelector</kbd>는 <kbd>BoxingBag</kbd>의 **Visual Output** 이다. UI 이지만 3D 오브젝트를 이용해 만들었다. <kbd>LevelSelector</kbd>는 앨범을 소켓에 넣는 것부터 시작된다.
@@ -359,7 +351,7 @@ private Color RandomAverage(Renderer renderer, Color color)
 
 <figure>
 <img src="/project-BeatBreaker/album.gif" alt="album.gif">
-<figcaption>Fig 3. Album.</figcaption>
+<figcaption>Fig 7. Album.</figcaption>
 </figure>
 
 소켓은 Unity XR Toolkit의 Socket을 이용했다. 
@@ -393,7 +385,7 @@ public void OnMusicBlockAttach(GameObject socket)
 
 <figure>
 <img src="/project-BeatBreaker/selectMusic.gif" alt="selectMusic.gif">
-<figcaption>Fig 3. Select Music.</figcaption>
+<figcaption>Fig 8. Select Music.</figcaption>
 </figure>
 
 UI의 디테일을 살리기 위해 노래 커버가 옆으로 넘어갈 때 마다 Lerp를 통한 **자리 이동**이 되고 **스케일**과 **투명도**도 바뀐다.
@@ -436,7 +428,7 @@ private IEnumerator SmoothFade(GameObject songCover, Vector3 startScale, Vector3
 
 <figure>
 <img src="/project-BeatBreaker/musicPick.gif" alt="musicPick.gif">
-<figcaption>Fig 3. Confirm Selected Music.</figcaption>
+<figcaption>Fig 9. Confirm Selected Music.</figcaption>
 </figure>
 
 노래 선택은 <kbd>BoxingBag</kbd>에 중앙을 일정 속도 이상으로 쳐야 선택이 된다.
@@ -523,7 +515,7 @@ private void OnEnable()
 
 <figure>
 <img src="/project-BeatBreaker/beat.png" alt="beat.png">
-<figcaption>Fig 3. Beat.</figcaption>
+<figcaption>Fig 10. Beat.</figcaption>
 </figure>
 
 <kbd>Beat</kbd>는 스폰이될 때 치는 방향이 랜덤으로 정해지고 레인을 따라 플레이어를 향해 움직인다. <kbd>Beat</kbd>는 기본적으로 물리 인터렉션이 가능하다.
@@ -534,7 +526,7 @@ private void OnEnable()
 
 | <img src="/project-BeatBreaker/beatHit.gif" alt="beatHit.gif"> | <img src="/project-BeatBreaker/beatMiss.gif" alt="beatMiss.gif"> |
 
-<figure><figcaption>Fig 1. Hit & Miss.</figcaption></figure>
+<figure><figcaption>Fig 11. Hit & Miss.</figcaption></figure>
 
 <kbd>Beat</kbd>를 쳤을 때 점수를 측정하는 절차는 다음과 같다.
 
@@ -581,25 +573,25 @@ else
 
 <figure>
 <img src="/project-BeatBreaker/feverEnter.gif" alt="feverEnter.gif">
-<figcaption>Fig 5. Enter Fever.</figcaption>
+<figcaption>Fig 12. Enter Fever.</figcaption>
 </figure>
 
 하지만 장애물에 충돌하거나 <kbd>Beat</kbd>를 놓치거나 Miss가 날 경우 콤보는 깨지고 <kbd>Fever Mode</kbd>는 끝나게 된다.
 
 <figure>
 <img src="/project-BeatBreaker/feverEnd.gif" alt="feverEnd.gif">
-<figcaption>Fig 5. Exit Fever.</figcaption>
+<figcaption>Fig 13. Exit Fever.</figcaption>
 </figure>
 
 | <img src="/project-BeatBreaker/gameonlight.png" alt="gameonlight.png"> | <img src="/project-BeatBreaker/gameonfever.png" alt="gameonfever.png"> |
 
-<figure><figcaption>Fig 1. Comparison.</figcaption></figure>
+<figure><figcaption>Fig 14. Comparison.</figcaption></figure>
 
 ### c. Result Screen
 
 <figure>
 <img src="/project-BeatBreaker/result.png" alt="result.png">
-<figcaption>Fig 7. Result UI.</figcaption>
+<figcaption>Fig 15. Result UI.</figcaption>
 </figure>
 
 <kbd>Result UI</kbd>는 3개의 페널로 이루어져 있다. **왼쪽 페널**은 *Best Combo*나 *Miss*의 개수 같은 디테일을 표시한다. **가운데 페널**은 점수와 노래 커버사진을 표시하고 **오른쪽 페널**은 플레이한 노래의 랭크가 표시된다.
@@ -609,7 +601,7 @@ else
 #### : physics button
 <figure>
 <img src="/project-BeatBreaker/keyboard.gif" alt="keyboard.gif">
-<figcaption>Fig 7. Physics Keyboard.</figcaption>
+<figcaption>Fig 16. Physics Keyboard.</figcaption>
 </figure>
 
 <kbd>Physics Button</kbd>은 목적에 맞게 재정의 해서 사용할 수 있도록 만들었다.
