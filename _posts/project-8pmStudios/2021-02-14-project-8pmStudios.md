@@ -115,7 +115,7 @@ gantt
 
 ### a. 구조
 
-<kbd>FilmCamera</kbd>의 구조를 만들 때 '**Dependency Cycle**'을 항상 염두에 두고 종속성을 끊어 주기 위해 노력했다. 따라서 <kbd>FilmCameraController</kbd>에서 카메라의 모든 기능을 참조하고 있는 것이 아니라 카메라의 기능들이 컨트롤러를 참조하고 각 기능이 알맞은 콜백함수에 구독하는 방식으로 설계하였다. 이렇게 설계함으로써 <kbd>FilmCameraController</kbd>가 카메라 기능들로부터 자유로워지고 원하는 기능을 코드의 수정 없이 추가하거나 뺄 수 있게 되었다. 
+<kbd>FilmCamera</kbd>의 구조를 만들 때 '**Dependency Cycle**'을 항상 염두에 두고 종속성을 끊어 주기 위해 노력했다. 따라서 <kbd>FilmCameraController</kbd>에서 카메라의 모든 기능을 참조하고 있는 것이 아니라 카메라의 기능들이 컨트롤러를 참조하고 각 기능이 알맞은 콜백함수에 구독하는 방식으로 설계하였다. 이렇게 설계함으로써 <kbd>FilmCameraController</kbd>가 카메라 기능들로부터 자유로워지고 원하는 기능을 코드의 수정 없이 추가하거나 뺄 수 있게 되었다.
 
 ##### Delegate Functions
 
@@ -648,7 +648,7 @@ private IEnumerator LoadVideo(string name)
 <figcaption>Fig 9. Path Creator.</figcaption>
 </figure>
 
-<kbd>CameraPathCreator</kbd>는 부드러운 곡선을 따라 촬영을 할 때 손쉽게 촬영할 수 있도록 보조한다. 이러한 작업은 작은 디테일 하나하나가 중요하다. 따라서 <kbd>Anchor Point</kbd>와 <kbd>Control Point</kbd>를 VR 상에서 잡아서 원하는 곳에 배치할 수 있게 하였다. <kbd>Cart</kbd>에 카메라를 장착하고 버튼을 누르면 설정한 속도로 <kbd>Cart</kbd>가 움직이게 된다.
+<kbd>CameraPathCreator</kbd>로 웨이포인트를 만들어 손쉽게 촬영할 수 있다. <kbd>Anchor Point</kbd>와 <kbd>Control Point</kbd>를 VR 상에서 원하는 곳에 배치할 수 있고 <kbd>Cart</kbd>에 카메라를 장착하고 출발 버튼을 누르면 설정한 속도로 <kbd>Cart</kbd>가 움직이게 된다.
 
 ### a. 구조
 

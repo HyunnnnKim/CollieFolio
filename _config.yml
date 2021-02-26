@@ -31,9 +31,11 @@ experience :
     experience : Half-Light Lab, OnCollisionEnter with Unity
 skills : 
   - skill : Unity & C#
-    value : 90  # Percent value
-  - skill : Python
+    value : 95  # Percent value
+  - skill : Spring & Java
     value : 75
+  - skill : Django & Python
+    value : 70
 
 icons :
   email: davidkimighty@gmail.com # Full email address, e.g. "sample@google.com"
