@@ -1,6 +1,6 @@
 ---
 layout: post
-title: BeatBreaker
+title: BeatBreaker 🥊
 date: 2021-02-19 09:29:20 +0700
 modified: 2021-02-19 21:49:47 +07:00
 categories: Projects
@@ -13,9 +13,10 @@ description: 날아오는 비트를 비트에 맞게 치는 VR 리듬 복싱 게
 </figure>
 
 **팀명:** 드랍더빗\
-**팀원:** 강승기, 김현우\
+**팀원:** 김현우, 강승기\
 **개발 환경:** Unity 2020.1 URP, Visual Studio, GitLab\
 **제작 기간:** 2020.10.27 ~ 2020.11.24\
+**YouTube:** [BeatBreaker Game Play](https://www.youtube.com/watch?v=EizQ02YZmUk)
 <br />
 
 <hr>
@@ -29,26 +30,25 @@ description: 날아오는 비트를 비트에 맞게 치는 VR 리듬 복싱 게
 **2. [<kbd> 프로젝트 구현 </kbd>](#프로젝트-구현)**
 - [<kbd> VR PLAYER </kbd>](#1-vr-player)
 - [<kbd> MAIN ROOM </kbd>](#2-main-room)
-- [<kbd> EXERCISE STAGE </kbd>](#3-exercise-stage)\
+- [<kbd> BEATBREAK STAGE </kbd>](#3-beatbreak-stage)\
 <br />
 
 <hr>
 
 # 프로젝트 소개
 
-<kbd>Beat Breaker</kbd>는 언택트 시대에 사는 사람들을 위한 홈트레이닝을 목적으로 만들어진 **VR 피트니스 어플리케이션**이다.
+<kbd>Beat Breaker</kbd>는 날아오는 비트를 글러브로 치는 **VR 리듬 액션 게임**이다.
 
-대부분의 사람은 홈트레이닝을 지루하게 생각하고 운동을 오래 끌고 가지 못한다. 이러한 문제점을 보완하기 위해 **리듬 게임** 요소를 추가하였다.
 ##### : target game
 
 | <img src="/project-BeatBreaker/targetBS.png" alt="targetBS.png"> | <img src="/project-BeatBreaker/targetVRB.png" alt="targetVRB.png"> |
 
 <figure><figcaption>Fig 1. Target Games.</figcaption></figure>
 
-타겟은 **Beat Saber**와 **VR Box**로 잡았다. **Beat Saber**의 네온 분위기와 **VR Box**의 타격감을 최대한 살리려고 했다.
+타겟은 **Beat Saber**와 **BoxVR**로 잡았다. **Beat Saber**의 네온 분위기와 **BoxVR**의 타격감을 최대한 살리려고 했다.
 
 ### 구조
-<kbd>Beat Breaker</kbd>는 크게 3가지 파트로 나뉜다; <kbd>Main Room</kbd>, <kbd>Exercise Stage</kbd>, <kbd>Result</kbd>. 
+<kbd>Beat Breaker</kbd>는 크게 3가지 파트로 나뉜다; <kbd>Main Room</kbd>, <kbd>BeatBreak Stage</kbd>, <kbd>Result</kbd>. 
 
 ##### : main state diagrams
 
@@ -58,24 +58,24 @@ stateDiagram-v2
     state Active {
         [*] --> MainRoom
         MainRoom --> [*] : quit
-        MainRoom --> Exercise : selectMusic
-        Exercise --> Result : timeEnd
+        MainRoom --> BeatBreakStage : selectMusic
+        BeatBreakStage --> Result : timeEnd
         Result --> MainRoom : addRank 
     }
     Active --> [*]
 @endmermaid
 
-<kbd>Main Room</kbd> 에서는 앨범과 노래를 선택할 수 있다. 노래를 선택하면 <kbd>Exercise</kbd> 파트에서 열심히 비트를 쳐서 점수를 올리고 <kbd>Result</kbd> 에서 결과를 확인하고 이름과 기록을 남길 수 있다.
+<kbd>Main Room</kbd> 에서는 앨범과 노래를 선택할 수 있다. 노래를 선택하면 <kbd>BeatBreak Stage</kbd> 파트에서 열심히 비트를 쳐서 점수를 올리고 <kbd>Result</kbd> 에서 결과를 확인하고 이름과 기록을 남길 수 있다.
 
 ### 역할 분담 및 개발 일정
 ##### : 팀 구성원
 
-| :강승기: | :김현우: |
+| :김현우: | :강승기: |
 | :----- | :----- |
-| - 비트 스폰     | - VR 플레이어        \
-| - 비트 리듬 생성 | - Game System      \
-| - 장애물 움직임  | - Interactive UI   \ 
-|               | - Level Design     \ 
+| - VR 플레이어        | - 비트 스폰     \
+| - Game System      | - 비트 리듬 생성 \
+| - Interactive UI   | - 장애물 움직임  \ 
+| - Level Design     |               \ 
 
 ##### : 개발 일정
 @startmermaid
@@ -503,13 +503,13 @@ private void OnEnable()
 
 다음 3가지 상태; <kbd>Load</kbd>, <kbd>MapSelection</kbd>, <kbd>GameOn</kbd> 는 새로운 씬이 로드 될 때 `UpdateGameState()` 함수에서 업데이트된다. 마지막 <kbd>Result</kbd> 상태는 <kbd>GameOn</kbd> 상태에서 선택한 노래가 끝나면 자동으로 바뀐다.
 
-## 3. EXERCISE STAGE
+## 3. BEATBREAK STAGE
 
 <figure>
 <img src="/project-BeatBreaker/gameon.gif" alt="gameon.gif">
 </figure>
 
-<kbd>Exercise Stage</kbd>는 비트에 맞춰 날아오는 <kbd>Beat</kbd>를 방향에 맞게 치면서 운동하는 공간이다.
+<kbd>BeatBreak Stage</kbd>는 비트에 맞춰 날아오는 <kbd>Beat</kbd>를 방향에 맞게 치면서 운동하는 공간이다.
 
 ### a. Beat
 

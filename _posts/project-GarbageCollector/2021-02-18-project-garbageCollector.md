@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Garbage Collector
+title: Garbage Collector 🐳
 date: 2021-02-18 09:29:20 +0700
 modified: 2021-02-18 21:49:47 +07:00
 categories: Projects
@@ -13,10 +13,10 @@ description: 부유 쓰레기를 수거하는 보트 게임.
 </figure>
 
 **팀명:** CodeSurfers\
-**팀원:** 정은채, 김현우\
+**팀원:** 김현우, 정은채\
 **개발 환경:** Unity 2019.4 URP, Visual Studio, GitLab\
 **제작 기간:** 2020.08.18 ~ 2020.09.15\
-**YouTube:** [Garbage Collector Devlog](https://www.youtube.com/watch?v=nUcayipipwk&t=77s)
+**YouTube:** [Garbage Collector Devlog](https://www.youtube.com/watch?v=nUcayipipwk)
 <br />
 
 <hr>
@@ -72,7 +72,7 @@ description: 부유 쓰레기를 수거하는 보트 게임.
 
 <kbd>Garbage Collector</kbd>은 심플한 아케이드 게임의 구조를 가진다. 타임 아웃이 되면 기록이 남고 다시 플레이하는 식으로 **리플레이성**이 짙다.
 
-##### Main Flow
+##### : Main Flow
 
 @startmermaid
 stateDiagram-v2
@@ -89,13 +89,13 @@ stateDiagram-v2
 @endmermaid
 
 ### 역할 분담 및 개발 일정
-##### 팀 구성원
+##### : 팀 구성원
 
-| :정은채: | :김현우: |
+| :김현우: | :정은채: |
 | :----- | :----- |
-| - 보트의 움직임    | - 환경 (바다, 섬) \
-| - 보트의 후크 | - Garbage의 움직임     \
-| - 장애물 움직임  | - Game System & UI   \
+| - 환경 (바다, 섬) | - 보트의 움직임    \
+| - Garbage의 움직임     | - 보트의 후크 \
+| - Game System & UI   | - 장애물 움직임  \
 
 ##### 개발 일정
 @startmermaid

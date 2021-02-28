@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 8pm STUDIOS
+title: 8pm STUDIOS 🍿
 date: 2021-01-14 09:29:20 +0700
 modified: 2021-02-17 21:49:47 +07:00
 categories: Projects
@@ -14,9 +14,10 @@ image: /project-8pmStudios/intro.png
 </figure>
 
 **팀명:** 8pm\
-**팀원:** 김지윤, 신철호, 김현우\
+**팀원:** 김현우, 김지윤, 신철호\
 **개발 환경:** Unity 2020.1 URP, Visual Studio, GitLab\
 **제작 기간:** 2020.12.28 ~ 2021.02.08\
+**YouTube:** [영화 '아저씨'의 "이거 방탄 유리야" 촬영](https://www.youtube.com/watch?v=TJJc4M2P2yM)
 <br />
 
 <hr>
@@ -60,14 +61,14 @@ image: /project-8pmStudios/intro.png
 사용자들은 제작 영화의 주제 또는 키워드별로 방을 만들고 필요한 역할을 구할 수 있다. 팀이 구성되면 배우는 가상 환경 속에서 연기를 하고 연출감독은 환경 세팅을 하며 촬영감독은 촬영을 진행한다. 전체적인 플로우는 다음과 같다.
 
 ### 역할 분담 및 수행 절차
-##### 팀 구성원
+##### : 팀 구성원
 
 | <img class="round" src="profileHW.JPG" width="130px"> | <img class="round" src="profileJY.jpeg" width="130px"> | <img class="round" src="profileCH.jpeg" width="130px"> |
 | 김현우               | 김지윤                 | 신철호                 |
 | :----------------: | :-------------------: | :------------------: |
 | 카메라 기능, 컨트롤 데스크   | 콘텐츠 기획, 인벤토리, 로비 | 네트워크, 플레이어 인터렉션 |
 
-##### 개발 일정 : 카메라
+##### : 개발 일정
 @startmermaid
 gantt
     dateFormat  YYYY-M-D
@@ -117,7 +118,7 @@ gantt
 
 <kbd>FilmCamera</kbd>의 구조를 만들 때 '**Dependency Cycle**'을 항상 염두에 두고 종속성을 끊어 주기 위해 노력했다. 따라서 <kbd>FilmCameraController</kbd>에서 카메라의 모든 기능을 참조하고 있는 것이 아니라 카메라의 기능들이 컨트롤러를 참조하고 각 기능이 알맞은 콜백함수에 구독하는 방식으로 설계하였다. 이렇게 설계함으로써 <kbd>FilmCameraController</kbd>가 카메라 기능들로부터 자유로워지고 원하는 기능을 코드의 수정 없이 추가하거나 뺄 수 있게 되었다.
 
-##### Delegate Functions
+##### : Delegate Functions
 
 {% highlight cs %}
 #region Delegates
@@ -131,7 +132,7 @@ public FilmCamJoystick JoystickAction;
 #endregion
 {% endhighlight %}
 
-##### FilmCamera Sequence Diagram
+##### : FilmCamera Sequence Diagram
 
 @startmermaid
 sequenceDiagram
@@ -422,7 +423,7 @@ private void Action() => _animator.SetTrigger("action");
 
 <kbd>ControlDeskSystem</kbd>의 구조는 <kbd>FilmCamera</kbd>의 구조와 비슷하다. <kbd>ControlDeskSystem</kbd>의 기능은 모드가 변경될 때마다 콜백함수에 구독되는 기능이 바뀌게 된다. 
 
-##### Delegate Funcitons
+##### : Delegate Funcitons
 
 {% highlight cs %}
 #region Delegates
@@ -437,7 +438,7 @@ public ControlDeskButton SecondaryAction = null;
 #endregion
 {% endhighlight %}
 
-##### ControlDeskSystem Sequence Diagram
+##### : ControlDeskSystem Sequence Diagram
 
 @startmermaid
 sequenceDiagram
@@ -654,7 +655,7 @@ private IEnumerator LoadVideo(string name)
 
 <kbd>CameraPathCreator</kbd>는 <kbd>Object Pool</kbd>에서 미리 만들어진 **Point**들을 배치하고 <kbd>PathViewer</kbd>가 **Point**들을 이어서 **Path**를 만든다. 
 
-##### CameraPathCreator Sequence Diagram
+##### : CameraPathCreator Sequence Diagram
 
 @startmermaid
 sequenceDiagram

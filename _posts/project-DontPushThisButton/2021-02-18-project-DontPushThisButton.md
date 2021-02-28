@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Don't Push This Button
+title: Don't Push This Button ☠️
 date: 2021-02-23 09:29:20 +0700
 modified: 2021-02-23 21:49:47 +07:00
 categories: Projects
@@ -13,10 +13,10 @@ description: VR 타임어택 액션 게임
 </figure>
 
 **팀명:** Half-Light\
-**팀원:** 박근영, 김현우\
+**팀원:** 김현우, 박근영\
 **개발 환경:** Unity 2020.1 URP, Visual Studio, GitLab\
 **제작 기간:** 2020.05.01 ~ 2020.08.03 (미완성)\
-**YouTube:** [Dungeon Breaker Devlogs](https://www.youtube.com/watch?v=zDeuXitzKdA&list=PLqlJmp0RxHq7NrU9c2W1bA_DKvhSt7GYL)
+**YouTube:** [Don't Push This Button Devlogs](https://www.youtube.com/watch?v=zDeuXitzKdA&list=PLqlJmp0RxHq7NrU9c2W1bA_DKvhSt7GYL)
 <br />
 
 <hr>
@@ -51,12 +51,12 @@ description: VR 타임어택 액션 게임
 <img src="/project-DontPushThisButton/teamHalfLight_rec.jpg" alt="Half-Light">
 </figure>
 
-| <img class="round" src="profileGY.JPG" width="130px"> | <img class="round" src="profileHW.JPG" width="130px"> |
-| :박근영: | :김현우: |
+| <img class="round" src="profileHW.JPG" width="130px"> | <img class="round" src="profileGY.JPG" width="130px"> |
+| :김현우: | :박근영: |
 | :---- | :---- |
-| - VR Player | - Enemy \
-| - Game Systems | - Level Design \
-| - Interactive Items | - Interactive Env. \
+| - Enemy | - VR Player \
+| - Level Design | - Game Systems \
+| - Interactive Env. | - Interactive Items \
 
 ##### : 개발 일정
 @startmermaid
@@ -84,7 +84,7 @@ gantt
 <figcaption>Fig 1. Animation based Enemy.</figcaption>
 </figure>
 
-처음 적을 만들 때는 애니메이션으로 움직임을 주었다. 애니메이션으로 움직이는 적은 동작 하나하나에 디테일을 살릴 수 있다는 장점이 있다. 하지만 플레이어와의 모든 인터렉션을 애니메이션으로 커버하기에는 한계가 있다. 
+처음 적을 만들 때는 애니메이션으로 움직임을 주었다. 애니메이션으로 움직이는 적은 동작 하나하나에 디테일을 살릴 수 있다는 장점이 있다. 하지만 플레이어와의 모든 인터렉션을 애니메이션으로 커버하기에는 한계가 있었다.
 
 ### a. Animation Controller
 
@@ -216,15 +216,18 @@ void AnimationHit()
 <figcaption>Fig 4. Active Ragdoll Self Balance.</figcaption>
 </figure>
 
-**YouTube Link :** [Devlog #2](https://www.youtube.com/watch?v=2zuM4VvnpB4)
+**YouTube Link :** [Devlog #2](https://www.youtube.com/watch?v=2zuM4VvnpB4)\
+**reddit Link :** [Self Balance Prototype](https://www.reddit.com/r/Unity3D/comments/hfd3ea/active_ragdoll_self_balancing/)\
+**reddit Link :** [Active Ragdoll in VR Prototype](https://www.reddit.com/r/Unity3D/comments/hk0fz0/playing_with_active_ragdoll_in_vr/)
+
 
 <kbd>Self Balance</kbd>는 hip에 있는 **Configurable Joint**에 의해 많은 부분 해결된다. Joint의 Angular Drive를 강하게 하고 Z축 로테이션을 잠그면 Ragdoll은 넘어지지 않는다. 
 
-하지만 플레이어 재미를 위해 Ragdoll은 넘어져야 한다. 자연스럽게 넘어지려면 Ragdoll의 **Center of Mass(CoM)**이 **양발의 중심점**에서 벗어나기 시작하면 다리를 움직여 균형을 잡게 하고 많이 벗어났을때 Ragdoll의 모든 Joint의 힘을 풀어주면 넘어지게 된다.
+하지만 플레이어의 재미를 위해 Ragdoll은 넘어져야 한다. 자연스럽게 넘어지려면 Ragdoll의 **Center of Mass(CoM)**이 **양발의 중심점**에서 벗어나기 시작하면 다리를 움직여 균형을 잡게 하고 많이 벗어났을때 Ragdoll의 모든 Joint의 힘을 풀어주면 넘어지게 된다.
 
 <figure>
-<img src="/project-DontPushThisButton/gait.png" alt="gait.png">
-<figcaption>Fig 5. Active Ragdoll Gait Cycle.</figcaption>
+<img src="/project-DontPushThisButton/ragdollgizmos.png" alt="ragdollgizmos.png">
+<figcaption>Fig 5. Active Ragdoll Gizmos.</figcaption>
 </figure>
 
 ##### ActiveRagdoll.cs
@@ -233,41 +236,204 @@ void AnimationHit()
 private void CalculateCoM()
 {
     Vector3 com = Vector3.zero; /* Center of mass */
-    float som = 0; /* Sum of mass. */
+    float sum = 0; /* Sum of mass. */
 
-    if (setup.RigidbodyNodes != null)
+    foreach (Rigidbody rb in _rigidbodies)
     {
-        foreach (Rigidbody childNode in setup.RigidbodyNodes)
-        {
-            com += childNode.worldCenterOfMass * childNode.mass;
-            som += childNode.mass;
-        }
-        com /= som;
+        com += rb.worldCenterOfMass * rb.mass;
+        sum += rb.mass;
     }
-    CoM.transform.position = com;
+    com /= sum;
+    _CoM.position = com;
+
+    Vector3 tartgetRot = Vector3.Scale(-_joints.Head.transform.forward,
+        _flatUnitVec);
+    _CoM.rotation = Quaternion.LookRotation(tartgetRot);
 }
 {% endhighlight %}
 
-균형을 잡기위한 다리의 움직임은 넘어지는 방향에 따라 달라진다.
+{% highlight cs %}
+private void CalculateCenterPoint()
+{
+    Vector3[] _feetPos = new Vector3[2];
+    _feetPos[0] = _joints.Foot_L.transform.position;
+    _feetPos[1] = _joints.Foot_R.transform.position;
+
+    Vector3 sum = Vector3.zero;
+    if (_feetPos == null || _feetPos.Length == 0)
+        _feetCenterPoint.position = sum;
+
+    foreach (Vector3 vec in _feetPos)
+        sum += vec;
+
+    _feetCenterPoint.position = sum / _feetPos.Length;
+}
+{% endhighlight %}
+
+CoM과 FeetCenterPoint는 매프레임 업데이트된다.
+
+{% highlight cs %}
+private void CalculateLeanValue()
+{
+    Vector3 cpFlat = Vector3.Scale(_feetCenterPoint.position, _flatUnitVec);
+    Vector3 comFlat = Vector3.Scale(_CoM.position, _flatUnitVec);
+    _leanDirFlat = (comFlat - cpFlat).normalized;
+    _outOfBalanceValue = Vector3.Distance(comFlat, cpFlat);
+}
+{% endhighlight %}
+
+매프레임 업데이트되는 `_CoM.position`과 `_feetCenterPoint.position`값의 Y값을 0으로 만들고 그 값으로 방향과 거리를 구한다.
+
+{% highlight cs %}
+private void CheckBalanceState()
+{
+    float dst = Mathf.Abs(_CoM.position.y - _feetCenterPoint.position.y);
+
+    if (_CoM.position.y > _inAirThreshold)
+        ragdollState = BalanceState.InAir;
+
+    else if (dst < _fallDownThreshold)
+        ragdollState = BalanceState.FellDown;
+
+    else if (_outOfBalanceValue > _outOfBalanceThreshold)
+        ragdollState = BalanceState.OutOfBalance;
+
+    else
+        ragdollState = BalanceState.InBalance;
+}
+{% endhighlight %}
+
+Ragdoll의 기본 4가지 상태는 우선순위가 있어 그 순서대로 상태를 결정짓게 된다. `_outOfBalanceValue` 값은 설정된 `_outOfBalanceThreshold`값과 비교되고 설정된 값보다 크면 Ragdoll은 균형을 잃고 있다는 것을 의미한다.
+
+{% highlight cs %}
+private void CheckLeaningState()
+{
+    float forward = Vector3.Dot(_CoM.forward, _leanDirFlat);
+    float backward = Vector3.Dot(-_CoM.forward, _leanDirFlat);
+    float right = Vector3.Dot(_CoM.right, _leanDirFlat);
+    float left = Vector3.Dot(-_CoM.right, _leanDirFlat);
+
+    if (forward > _leanThreshold)
+        leaningDirection = LeaningDirection.Forward;
+
+    else if (backward > _leanThreshold)
+        leaningDirection = LeaningDirection.Backward;
+
+    else if (right > _leanThreshold)
+        leaningDirection = LeaningDirection.Right;
+
+    else if (left > _leanThreshold)
+        leaningDirection = LeaningDirection.Left;
+
+    else
+        leaningDirection = LeaningDirection.NoDir;
+}
+{% endhighlight %}
+
+넘어지는 방향은 CoM을 기준으로 한다. 넘어지는 방향은 4가지만 파악하고 **Dot Product**를 통해 그 값을 구한다.
+
+<figure>
+<img src="/project-DontPushThisButton/gait.png" alt="gait.png">
+<figcaption>Fig 5. Active Ragdoll Gait Cycle.</figcaption>
+</figure>
+
+Ragdoll의 다리 움직임 상태는 <kbd>Swing State</kbd>, <kbd>Stance State</kbd>로 나뉜다. 활성화된 다리가 <kbd>Swing State</kbd>이다.
 
 ##### BalanceMovement.cs
 
 {% highlight cs %}
-if (ragdoll.LeanState.Equals(LeanState.Right))
+#region Legs
+/// <summary>
+/// 넘어지는 방향에 따라 그에 맞는 다리 움직임을 실행
+/// </summary>
+public void BalanceLegMovement(LeaningDirection leaningDir)
 {
-    legBase.ActivateRightLeg();
-    legBase.PreviousLeg = ActiveLeg.LeftLeg;
-    legBase.BackwardMovementFootMaterialChange(setup);
+    switch (leaningDir)
+    {
+        case LeaningDirection.Forward:
+            if (!_lastActiveLeg.Equals(ActiveLeg))
+            {
+                _lastActiveLeg = ActiveLeg;
+                _activeLegCoroutine = StartCoroutine(
+                RotateLegJoints(_swing, _stance, _balanceForwardRots));
+            }
+            break;
+{% endhighlight %}
 
-    legBase.LegJointsMovement(setup, balanceRot.SideUpperStance, balanceRot.SideLowerStance, balanceRot.SideAnkleStance,
-        balanceRot.SideUpperSwing_S, balanceRot.SideLowerSwing_S, balanceRot.SideAnkleSwing_S,
-        balanceRot.SideUpperSwing_F, balanceRot.SideLowerSwing_F, balanceRot.SideAnkleSwing_F, 0.2f);
+다리 움직임은 이전에 활성화된 다리가 현재 활성화된 다리와 달라야지 움직인다.
 
-    spineBase.CoreJointMovement(setup, balanceRot.SideSpine, balanceRot.SideSpine, 0.5f);
+{% highlight cs %}
+private IEnumerator RotateLegJoints(Swing swing, Stance stance, LegTargetRotations tr)
+{
+    float startElapsedTime = 0f;
+
+    swing.Foot.GetComponent<Collider>().material = _slide;
+    stance.Foot.GetComponent<Collider>().material = _rough;
+
+    while (startElapsedTime < tr.StartPhaseDuration)
+    {
+        startElapsedTime += Time.fixedDeltaTime;
+        float startPhasePerc = startElapsedTime / tr.StartPhaseDuration;
+
+        swing.Upper.targetRotation = Quaternion.Lerp(swing.Upper.targetRotation,
+            tr.SwingUpStart, _startPhaseAC.Evaluate(startPhasePerc));
+
+        swing.Lower.targetRotation = Quaternion.Lerp(swing.Lower.targetRotation,
+            tr.SwingLowStart, _startPhaseAC.Evaluate(startPhasePerc));
+
+        swing.Foot.targetRotation = Quaternion.Lerp(swing.Foot.targetRotation,
+            tr.SwingFootStart, _startPhaseAC.Evaluate(startPhasePerc));
+
+        stance.Upper.targetRotation = Quaternion.Lerp(stance.Upper.targetRotation,
+            tr.StanceUpStart, _startPhaseAC.Evaluate(startPhasePerc));
+
+        stance.Lower.targetRotation = Quaternion.Lerp(stance.Lower.targetRotation,
+            tr.StanceLowStart, _startPhaseAC.Evaluate(startPhasePerc));
+
+        stance.Foot.targetRotation = Quaternion.Lerp(stance.Foot.targetRotation,
+            tr.StanceFootStart, _startPhaseAC.Evaluate(startPhasePerc));
+        yield return null;
+    }
+    
+    float endElapsedTime = 0f;
+    swing.Foot.GetComponent<Collider>().material = _rough;
+    stance.Foot.GetComponent<Collider>().material = _slide;
+
+    while (endElapsedTime < tr.EndPhaseDuration)
+    {
+        endElapsedTime += Time.fixedDeltaTime;
+        float endPhasePerc = endElapsedTime / tr.EndPhaseDuration;
+
+        swing.Upper.targetRotation = Quaternion.Lerp(swing.Upper.targetRotation,
+            tr.SwingUpEnd, _endPhaseAC.Evaluate(endPhasePerc));
+
+        swing.Lower.targetRotation = Quaternion.Lerp(swing.Lower.targetRotation,
+            tr.SwingLowEnd, _endPhaseAC.Evaluate(endPhasePerc));
+
+        swing.Foot.targetRotation = Quaternion.Lerp(swing.Foot.targetRotation,
+            tr.SwingFootEnd, _endPhaseAC.Evaluate(endPhasePerc));
+
+        stance.Upper.targetRotation = Quaternion.Lerp(stance.Upper.targetRotation,
+            tr.StanceUpEnd, _endPhaseAC.Evaluate(endPhasePerc));
+
+        stance.Lower.targetRotation = Quaternion.Lerp(stance.Lower.targetRotation,
+            tr.StanceLowEnd, _endPhaseAC.Evaluate(endPhasePerc));
+
+        stance.Foot.targetRotation = Quaternion.Lerp(stance.Foot.targetRotation,
+            tr.StanceFootEnd, _endPhaseAC.Evaluate(endPhasePerc));
+        yield return null;
+    }
+    
+    ActiveLeg = ActiveLeg.Equals(ActiveLeg.Left) ?
+        ActiveLeg.Right : ActiveLeg.Left;
+
+    SetSwingStance();
 }
 {% endhighlight %}
 
-움직이는 다리의 발은 **PhysicsMaterial**이 미끄러운 값으로 바뀐다. 움직일때 발이 걸려 넘어지는 문제를 막아준다. 다리의 움직임은 줄때는 Joint의 **TargetRotation** 값을 타겟 값까지 Lerp한다. 
+<kbd>Swing State</kbd>에서는 다리가 올라갔다 내려가야 하는 동작을 취해야한다. 올라가기 전 **PhysicsMaterial**을 미끄러운 값으로 바꾼다. 움직일 때 발이 걸려 넘어지는 문제를 막아준다. 다리의 움직임은 줄 때는 Joint의 **TargetRotation** 값을 타겟 값까지 Lerp한다.
+
+Ragdoll의 다른 움직임도 마찬가지로 `.targetRotation`의 값을 바꿔주는 것으로 동작한다.
 
 ### c. Get Up
 <figure>
@@ -275,25 +441,9 @@ if (ragdoll.LeanState.Equals(LeanState.Right))
 <figcaption>Fig 6. Active Ragdoll Get Up.</figcaption>
 </figure>
 
-**YouTube Link :** [Devlog #3](https://www.youtube.com/watch?v=Yy6NPGpwW7Q&t=83s)
+**YouTube Link :** [Devlog #3](https://www.youtube.com/watch?v=Yy6NPGpwW7Q)
 
-Ragdoll은 넘어지고 다시 일어날때 Joint의 힘을 다시 주고 **AngularXZMotion**에 락을 줘서 hip의 균형을 잡는다.
-
-##### GetUpMovement.cs
-
-{% highlight cs %}
-legBase.BackwardMovementFootMaterialChange(setup);
-jointPower.StrengthenAllJoints(setup);
-jointPower.LockAngularXZMotion(setup);
-
-legBase.LegJointsMovement(setup, getUpRot.Upper_S, getUpRot.Lower_S, getUpRot.Ankle_S,
-    getUpRot.Upper_S, getUpRot.Lower_S, getUpRot.Ankle_S,
-    getUpRot.Upper_F, getUpRot.Lower_F, getUpRot.Ankle_F, lerpTime);
-
-spineBase.CoreJointMovement(setup, getUpRot.Spine_S, getUpRot.Spine_F, lerpTime);
-
-if (!ragdoll.ARState.Equals(ARState.FellDown)) { delayExecuted = true; }
-{% endhighlight %}
+Ragdoll은 넘어지고 다시 일어날때 Joint의 힘을 다시 강하게 하고 **AngularXZMotion**에 락을 줘서 hip의 균형을 잡는다.
 
 ### d. Attack
 <figure>
@@ -304,30 +454,11 @@ if (!ragdoll.ARState.Equals(ARState.FellDown)) { delayExecuted = true; }
 
 <figure><figcaption>Fig 7. Active Ragdoll Attacks.</figcaption></figure>
 
-**YouTube Link :** [Devlog #4](https://www.youtube.com/watch?v=Qa51O93OS5w&t=135s)
+**YouTube Link :** [Devlog #4](https://www.youtube.com/watch?v=Qa51O93OS5w)
 
 무기를 이용한 공격 클래스는 **ICombat**의 `Attack()` 함수를 재정의한다. 
 
-##### Stab.cs
-
-{% highlight cs %}
-public void Attack(ActiveRagdollSetup setup, Vector3 targetPosition)
-{
-    jointPower.PowerfulArm(setup, activeArm);
-
-    setup.cJoints.Spine1.targetRotation = combatRot.StabSpineOne_S * startRot.Spine1;
-    setup.cJoints.Spine2.targetRotation = combatRot.StabSpineTwo_S * startRot.Spine2;
-
-    ActiveRagdollSetup.SideJoints armJoints = activeArm.Equals(ActiveArm.Right) ? setup.rJoints : setup.lJoints;
-
-    armJoints.Shoulder.targetRotation = combatRot.StabShoulder_S * startRot.Shoulder;
-    armJoints.Elbow.targetRotation = combatRot.StabElbow_S * startRot.Elbow;
-
-    StartCoroutine(stabbing(setup, armJoints, targetPosition));
-}
-{% endhighlight %}
-
-`stabbing()` 동작이 일어나기전 준비 자세를 취한다.
+공격 움직임도 준비 자세와 공격 자세로 나뉜다. 준비 자세에서 목표물까지의 방향을 구하고 공격하게 된다.
 
 ### e. Look At
 
@@ -350,6 +481,8 @@ private bool PlayerInViewAngle()
     return angle < AngleCutOff;
 }
 {% endhighlight %}
+
+Dot Product를 이용해 머리의 forward와 타겟을 바라보는 방향의 각도를 구한다. 그 값을 이용해 시야의 범위를 정한다.
 
 ### f. Interactions
 
