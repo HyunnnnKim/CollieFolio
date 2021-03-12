@@ -4,7 +4,7 @@ title: C# SOLID Principles
 date: 2021-03-09 09:29:20 +0700
 modified: 2021-03-09 21:49:47 +07:00
 categories: Blog
-tags: [TIL]
+tags: [TIL, C#]
 description: C# SOLID Principles.
 ---
 
