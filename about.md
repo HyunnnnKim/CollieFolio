@@ -40,7 +40,13 @@ I am thrilled to acquire more knowledge and to continue to challenge myself for 
 
 ### PREVIOUS PROJECTS 🐾
 
-
+Django + React Native 기반의 메시징앱 [Speagle]()\
+Hyperledger Fabric을 이용한 의료기록 시스템 [MedRec]()\
+슬리핑 차일드 문제 해결을 위한 차량 사고 예방 시스템 [searchi]()\
+딥러닝을 이용한 고소 작업자 행동 모니터링 시스템 [장명선]()\
+웹크롤링을 이용한 영어 단어장앱 [TEDu]()\
+OpenCV를 이용한 [Home Security System]()\
+jsp 프로젝트 [희망을 나누다]()
 
 ### QUOTES 🥦
 
