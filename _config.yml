@@ -23,6 +23,9 @@ author:
 
 # Added by hw
 experience :
+  - start : 2021-03-23
+    end : currently employed
+    experience : Game Developer at Miragesoft
   - start : 2020-08-10
     end : 2021-02-09
     experience : RAPA, ML Agents 강화학습 기반 실감콘텐츠 개발
