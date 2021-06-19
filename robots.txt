@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://colliecollie.netlify.app/sitemap.xml

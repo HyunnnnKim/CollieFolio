@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unity Editor에 Foldout 적용하기
+title: Unity Editor, Foldout 적용하기
 date: 2021-06-06 09:29:20 +0700
 modified: 2021-06-09 21:49:47 +07:00
 categories: Blog
