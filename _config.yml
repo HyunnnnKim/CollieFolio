@@ -14,7 +14,7 @@ favicon : assets/favicons/favicon.ico
 author:
   name: Hyunwoo Kim # author name
   bio: >- # tell to the world
-    I'm an VR Game Developer living in Seoul, Korea.
+    I'm a VR Game Developer living in Seoul, Korea.
   # username: username # general username
   github: hyunnnnkim # github username
   twitter: hyunnnnkim # twitter username
@@ -25,7 +25,7 @@ author:
 experience :
   - start : 2021-03-23
     end : currently employed
-    experience : VR Game Developer at Miragesoft
+    experience : VR Game Developer at DevsUnitedGames
   - start : 2020-08-10
     end : 2021-02-09
     experience : RAPA, ML Agents 강화학습 기반 실감콘텐츠 개발
